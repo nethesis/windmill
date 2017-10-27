@@ -20,7 +20,7 @@
  * author: Edoardo Spadoni <edoardo.spadoni@nethesis.it>
  */
 
-package cmd
+package session
 
 import (
 	"fmt"
@@ -52,12 +52,12 @@ func connectSession(sessionId string) {
 	}
 }
 
-var connectCmd = &cobra.Command{
-	Use: "connect [session-id]",
+var ConnectCmd = &cobra.Command{
+	Use: "connect <session-id>",
 	Short: "Connect to server by specify Session ID",
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) < 1 {
-		  return errors.New("requires session-id")
+			return errors.New(helper.RedString("requires session-id"))
 		}
 		return nil;
 	},
@@ -69,5 +69,4 @@ var connectCmd = &cobra.Command{
 }
 
 func init() {
-	RootCmd.AddCommand(connectCmd)
 }

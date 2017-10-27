@@ -34,7 +34,7 @@ import (
 
 var RootCmd = &cobra.Command{
 	Use: "sancho",
-	Short: helper.CyanString("Nethesis Support CLI"),
+	Short: helper.CyanString("Windmill support CLI"),
 }
 
 func Execute() {

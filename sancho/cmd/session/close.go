@@ -20,7 +20,7 @@
  * author: Edoardo Spadoni <edoardo.spadoni@nethesis.it>
  */
 
-package cmd
+package session
 
 import (
 	"fmt"
@@ -98,8 +98,8 @@ func closeConnection(sessionId string) {
 	}
 }
 
-var closeCmd = &cobra.Command{
-	Use: "close [session-id]",
+var CloseCmd = &cobra.Command{
+	Use: "close <session-id>",
 	Short: "Close Session ID and remove VPN connection",
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) < 1 && !allCloseFlag {
@@ -117,7 +117,5 @@ var closeCmd = &cobra.Command{
 }
 
 func init() {
-	RootCmd.AddCommand(closeCmd)
-
-	closeCmd.Flags().BoolVarP(&allCloseFlag, "all", "a", false, "Close all sessions")
+	CloseCmd.Flags().BoolVarP(&allCloseFlag, "all", "a", false, "Close all sessions")
 }

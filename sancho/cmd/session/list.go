@@ -20,7 +20,7 @@
  * author: Edoardo Spadoni <edoardo.spadoni@nethesis.it>
  */
 
-package cmd
+package session
 
 import (
 	"fmt"
@@ -53,14 +53,14 @@ func printSession(session model.Session) {
 	if (jsonFlag) {
 		jsonPrint := []byte(`{
 			"session":"` +session.SessionId + `",
-			"lk":"` + session.Lk + `",
+			"server":"` + session.ServerId + `",
 			"vpn":"` + session.VpnIp + `",
 			"started":"` + session.Started + `"
 		}`)
 		printJSON(jsonPrint);
 	} else {
 		fmt.Printf("session: %s\n", helper.GreenString(session.SessionId))
-		fmt.Printf("  lk:\t\t%s\n", session.Lk)
+		fmt.Printf("  server:\t\t%s\n", session.ServerId)
 		fmt.Printf("  vpn:\t\t%s\n", session.VpnIp)
 		fmt.Printf("  started:\t%s\n\n", session.Started)
 	}
@@ -120,8 +120,8 @@ func listSession(sessionId string) {
 	}
 }
 
-var listCmd = &cobra.Command{
-	Use: "list [session-id]",
+var ListCmd = &cobra.Command{
+	Use: "list <session-id>",
 	Short: "Show all VPNs of connected servers",
 	Args: cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
@@ -134,7 +134,5 @@ var listCmd = &cobra.Command{
 }
 
 func init() {
-	RootCmd.AddCommand(listCmd)
-
-	listCmd.Flags().BoolVarP(&jsonFlag, "json", "j", false, "Print output in JSON format")
+	ListCmd.Flags().BoolVarP(&jsonFlag, "json", "j", false, "Print output in JSON format")
 }

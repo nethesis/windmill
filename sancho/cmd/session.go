@@ -20,12 +20,30 @@
  * author: Edoardo Spadoni <edoardo.spadoni@nethesis.it>
  */
 
-package model
+ package cmd
 
-type Session struct {
-	Id				uint		`db:"id" json:"id"`
-	SessionId		string		`db:"session_id" json:"session"`
-	VpnIp			string		`db:"vpn_ip" json:"vpn"`
-	ServerId		string		`db:"server_id" json:"server"`
-	Started			string		`db:"started" json:"started"`
-}
+ import (
+	 "fmt"
+
+	 "github.com/spf13/cobra"
+
+	 "sancho/config"
+	 "sancho/helper"
+	 "sancho/cmd/session"
+ )
+
+ var sessionCmd = &cobra.Command{
+	 Use: "session <command>",
+	 Short: "Perform action to sessions",
+	 Args: cobra.MinimumNArgs(1),
+	 Run: func(cmd *cobra.Command, args []string) {
+		 fmt.Println(RootCmd.Use + " " + helper.CyanString(config.VERSION))
+	 },
+ }
+
+ func init() {
+	 RootCmd.AddCommand(sessionCmd)
+	 sessionCmd.AddCommand(session.ListCmd);
+	 sessionCmd.AddCommand(session.CloseCmd);
+	 sessionCmd.AddCommand(session.ConnectCmd);
+ }

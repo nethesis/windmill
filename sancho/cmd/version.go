@@ -33,7 +33,7 @@ import (
 
 var versionCmd = &cobra.Command{
 	Use: "version",
-	Short: "Show Nethesis Support CLI version",
+	Short: "Show Windmill support CLI version",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println(RootCmd.Use + " " + helper.CyanString(config.VERSION))
 	},
