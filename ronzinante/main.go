@@ -37,15 +37,15 @@ func main() {
 		sessions.GET("/", methods.GetSessions)
 		sessions.GET("/:session_id", methods.GetSession)
 		sessions.POST("/", methods.CreateSession)
-		sessions.PUT("/:lk", methods.UpdateSession)
-		sessions.DELETE("/:lk", methods.DeleteSession)
+		sessions.PUT("/:server_id", methods.UpdateSession)
+		sessions.DELETE("/:server_id", methods.DeleteSession)
 	}
 
 	history := router.Group("/api/histories")
 	{
 		history.GET("/", methods.GetHistories)
-		history.GET("/:lk", methods.GetHistory)
-		history.PUT("/:lk", methods.UpdateHistory)
+		history.GET("/:server_id", methods.GetHistory)
+		history.PUT("/:server_id", methods.UpdateHistory)
 	}
 
 	router.Run()

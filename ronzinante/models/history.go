@@ -25,7 +25,7 @@ package models
 type History struct {
 	Id						uint		`db:"id" json:"id"`
 	SessionId				string		`db:"session_id" json:"session"`
-	Lk						string		`db:"lk" json:"lk"`
+	ServerId				string		`db:"server_id" json:"server"`
 	Started					string		`db:"started" json:"started"`
 	BytesReceived			string		`db:"bytes_received" json:"bytes_received"`
 	BytesSent				string		`db:"bytes_sent" json:"bytes_sent"`

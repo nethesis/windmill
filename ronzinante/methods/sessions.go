@@ -35,11 +35,11 @@
 
  func CreateSession(c *gin.Context) {
 	 sessionId := c.PostForm("session_id")
-	 lk := c.PostForm("lk")
+	 serverId := c.PostForm("server_id")
 	 started := time.Now().String()
 
 	 session := models.Session{
-		 Lk: lk,
+		 ServerId: serverId,
 		 SessionId: sessionId,
 		 VpnIp: "",
 		 Started: started,
@@ -53,11 +53,11 @@
 
  func UpdateSession(c *gin.Context) {
 	 var session models.Session
-	 lk := c.Param("lk")
+	 serverId := c.Param("server_id")
 	 vpnIp := c.PostForm("vpn_ip")
 
 	 db := database.Database()
-	 db.Where("lk = ?", lk).First(&session)
+	 db.Where("server_id = ?", serverId).First(&session)
 
 	 if session.Id == 0 {
 		 c.JSON(http.StatusNotFound, gin.H{"message": "No session found!"})
@@ -100,10 +100,10 @@
  func DeleteSession(c *gin.Context) {
 	 var session models.Session
 	 var history models.History
-	 lk := c.Param("lk")
+	 serverId := c.Param("server_id")
 
 	 db := database.Database()
-	 db.Where("lk = ?", lk).First(&session)
+	 db.Where("server_id = ?", serverId).First(&session)
 
 	 if session.Id == 0 {
 		 c.JSON(http.StatusNotFound, gin.H{"message": "No session found!"})
@@ -112,7 +112,7 @@
 
 	 // add to history this session
 	 history.SessionId = session.SessionId
-	 history.Lk = session.Lk
+	 history.ServerId = session.ServerId
 	 history.Started = time.Now().String()
 	 db.Save(&history)
 
