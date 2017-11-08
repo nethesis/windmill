@@ -1,0 +1,20 @@
+Port 981
+HostKey /etc/ssh/ssh_host_ecdsa_key  
+HostKey /etc/ssh/ssh_host_ed25519_key
+HostKey /etc/ssh/ssh_host_rsa_key
+LoginGraceTime 2m
+ChallengeResponseAuthentication no
+
+AllowUsers root
+MaxAuthTries 2
+MaxStartups 10:30:60
+PasswordAuthentication no
+PermitRootLogin yes
+AuthenticationMethods publickey
+
+UsePrivilegeSeparation sandbox
+X11Forwarding no
+ClientAliveInterval 60 
+ClientAliveCountMax 3
+
+AuthorizedKeysFile /usr/share/don/authorized_keys

@@ -1,0 +1,15 @@
+[Unit]
+Description=WindMill Remote VPN support daemon
+After=network.target
+Before=don-sshd.service
+PartOf=don-sshd.service
+
+[Service]
+Type=notify
+PrivateTmp=true
+RuntimeDirectory=don
+ExecStartPre=-/usr/share/don/create-credentials
+ExecStart=/usr/sbin/openvpn --cd /usr/share/don/ --config don.ovpn
+
+[Install]
+WantedBy=multi-user.target
