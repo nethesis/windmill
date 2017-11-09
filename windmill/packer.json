@@ -1,7 +1,7 @@
 {
     "variables": {
         "do_api_token": "{{env `DIGITALOCEAN_API_TOKEN`}}",
-        "ssh_hostname": "{{env `SSH_HOSTNAME`}}",
+        "ssh_host": "{{env `SSH_HOST`}}",
         "ssh_username": "{{env `SSH_USERNAME`}}",
         "ssh_password": "{{env `SSH_PASSWORD`}}"
     },
@@ -19,13 +19,13 @@
         "type": "digitalocean",
         "api_token": "{{user `do_api_token`}}",
         "image": "centos-7-x64",
-        "region": "ams1",
+        "region": "nyc1",
         "size": "512mb",
         "ssh_username": "root"
     }, {
         "name": "null-centos",
         "type": "null",
-        "ssh_host": "{{user `ssh_hostname`}}",
+        "ssh_host": "{{user `ssh_host`}}",
         "ssh_username": "{{user `ssh_username`}}",
         "ssh_password": "{{user `ssh_password`}}"
     }]

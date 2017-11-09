@@ -2,6 +2,7 @@
 - service: name=firewalld enabled=no state=stopped
   tags:
       - firewall
+  ignore_errors: yes
 
 - name: Install firewall packages
   yum: pkg=iptables-services state=latest
