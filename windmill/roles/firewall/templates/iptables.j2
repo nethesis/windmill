@@ -1,0 +1,31 @@
+# sample configuration for iptables service
+# you can edit this manually or use system-config-firewall
+# please do not ask us to add additional ports/services to this default configuration
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -p icmp -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+
+# VPN clients can't access anything
+-A INPUT -p tcp -m state --state NEW -s 172.29.0.0/16 -j DROP
+-A INPUT -p udp -m state --state NEW -s 172.29.0.0/16 -j DROP
+
+# Allow SSH only from Your Company Public IPs
+{% for network in tcp_accessbyip_v4 %}{% for port in tcp_accessbyip_v4[network] %}
+-A INPUT -p tcp -m state --state NEW -m tcp -s {{ network }} --dport {{ port }} -j ACCEPT
+{% endfor %}{% endfor %}
+
+# Allow httpd access
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 80 -j ACCEPT
+
+# Allow OpenVPN from everywhere
+-A INPUT -p udp -m state --state NEW -m udp --dport 1194 -j ACCEPT
+
+# Deny everything else
+-A INPUT -j REJECT --reject-with icmp-host-prohibited
+-A FORWARD -j REJECT --reject-with icmp-host-prohibited
+COMMIT

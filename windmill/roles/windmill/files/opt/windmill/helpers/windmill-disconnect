@@ -1,0 +1,19 @@
+#!/bin/bash
+
+logger -T "windmill" "CLOSE: username=$username ifconfig_pool_remote_ip=$ifconfig_pool_remote_ip ifconfig_pool_local_ip=$ifconfig_pool_local_ip"
+
+curl -X DELETE "http://localhost:8080/api/sessions/$username"
+
+curl -X PUT \
+-F "bytes_received=$bytes_received" \
+-F "bytes_sent=$bytes_sent" \
+-F "common_name=$common_name" \
+-F "ifconfig_pool_local_ip=$ifconfig_pool_local_ip" \
+-F "ifconfig_pool_netmask=$ifconfig_pool_netmask" \
+-F "ifconfig_pool_remote_ip=$ifconfig_pool_remote_ip" \
+-F "time_duration=$time_duration" \
+-F "trusted_ip=$trusted_ip" \
+-F "trusted_port=$trusted_port" \
+"http://localhost:8080/api/sessions/$username"
+
+exit 0

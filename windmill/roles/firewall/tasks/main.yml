@@ -1,0 +1,18 @@
+---
+- service: name=firewalld enabled=no state=stopped
+  tags:
+      - firewall
+
+- name: Install firewall packages
+  yum: pkg=iptables-services state=latest
+  tags:
+      - firewall
+
+- service: name=iptables enabled=yes state=started
+  tags:
+      - firewall
+
+- template: src=iptables.j2 dest=/etc/sysconfig/iptables
+  notify: restart iptables
+  tags:
+      - firewall

@@ -1,0 +1,123 @@
+---
+- name: Install EPEL repository (epel-release)
+  yum: name=epel-release state=present enablerepo=extras
+  when: ansible_distribution == "CentOS" and (ansible_distribution_major_version == "6" or ansible_distribution_major_version == "7")
+  tags:
+      - windmill
+
+- name: Install required packages
+  yum: enablerepo=epel name="{{item}}" state=present
+  with_items:
+      - openvpn
+      - wget
+      - easy-rsa
+      - mariadb-server
+      - MySQL-python
+      - policycoreutils-python
+      - caddy
+      - python34
+      - python34-yaml
+  tags:
+      - windmill
+
+- name: Create windmill directory
+  file: state=directory path=/opt/windmill mode=0755
+  tags:
+      - windmill
+
+- name: Copy windmill files in it
+  copy: src=opt/windmill dest=/opt mode=0755 mode=preserve
+  tags:
+      - windmill
+
+- name: Include certificate vars, initialize certificate and generate pem (could be long...)
+  shell: "source /opt/windmill/easy-rsa/vars && /opt/windmill/easy-rsa/pkitool --initca && /opt/windmill/easy-rsa/build-dh"
+  tags:
+      - windmill
+
+- name: Enable and start mariadb server
+  service: name=mariadb state=started enabled=yes
+  tags:
+      - windmill
+
+- name: Create a new database with name 'windmill'
+  mysql_db:
+    name: windmill
+    state: present
+  tags:
+      - windmill
+
+- name: Copy sessions.sql db to host
+  copy: src=sessions.sql dest=/tmp/sessions.sql
+  tags:
+      - windmill
+
+- name: Create sessions table
+  mysql_db:
+    state: import
+    name: windmill
+    target: /tmp/sessions.sql
+  tags:
+      - windmill
+
+- name: Copy histories.sql db to host
+  copy: src=histories.sql dest=/tmp/histories.sql
+  tags:
+      - windmill
+
+- name: Create histories table
+  mysql_db:
+    state: import
+    name: windmill
+    target: /tmp/histories.sql
+  tags:
+      - windmill
+
+- name: Create directory for caddy
+  shell: "mkdir -p /opt/windmill/caddy"
+  tags:
+      - windmill
+
+- name: Copy Caddyfile
+  template: src=Caddyfile.j2 dest=/opt/windmill/caddy/Caddyfile
+  tags:
+      - windmill
+
+- name: Enable ssl directory for caddy
+  shell: "mkdir -p /opt/windmill/caddy/ssl && chown -R caddy:root /opt/windmill/caddy/ssl && chmod 0770 /opt/windmill/caddy/ssl"
+  tags:
+      - windmill
+
+- name: Create document root for caddy
+  shell: "mkdir -p /opt/windmill/caddy/srv && chown caddy:caddy /opt/windmill/caddy/srv"
+  tags:
+      - windmill
+
+- name: Copy systemd unit for caddy
+  copy: src=usr/lib/systemd/system/caddy-windmill.service dest=/usr/lib/systemd/system/caddy-windmill.service
+  tags:
+      - windmill
+
+- name: Enable and start caddy server
+  service: name=caddy-windmill state=started enabled=yes
+  tags:
+      - windmill
+
+- name: Create openvpn directory
+  shell: "mkdir -p /opt/windmill/openvpn/spool"
+  tags:
+      - windmill
+
+- name: Grant access to SE Linux policy
+  shell: "semodule -i /opt/windmill/openvpn/windmill.pp"
+
+- name: Copy systemd unit for openvpn windmill
+  copy: src=usr/lib/systemd/system/windmill.service dest=/usr/lib/systemd/system/windmill.service
+  tags:
+      - windmill
+
+- name: Enable and start openvpn server aka windmill
+  service: name=windmill state=started enabled=yes
+  tags:
+      - windmill
+

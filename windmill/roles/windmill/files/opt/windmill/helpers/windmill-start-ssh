@@ -1,0 +1,7 @@
+#!/bin/bash
+
+logger -t "windmill" "SSH_START_SESSION: vpn_ip=$1 port=$2"
+
+ssh -p $2 root@$1
+
+exit 0

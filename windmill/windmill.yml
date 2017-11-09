@@ -1,0 +1,7 @@
+---
+- hosts: windmill
+  roles:
+    -
+        role: windmill
+    -
+        role: firewall

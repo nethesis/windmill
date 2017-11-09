@@ -1,0 +1,4 @@
+---
+tcp_accessbyip_v4:
+    "public_ip/24":
+        - "22"

@@ -1,0 +1,11 @@
+[Unit]
+Description=OpenVPN instance for WindMill Bastion Host
+After=network.target
+
+[Service]
+Type=notify
+PrivateTmp=true
+ExecStart=/usr/sbin/openvpn --cd /opt/windmill/openvpn/ --config windmill.conf
+
+[Install]
+WantedBy=multi-user.target

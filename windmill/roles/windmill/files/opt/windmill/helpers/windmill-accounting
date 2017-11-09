@@ -1,0 +1,7 @@
+#!/bin/bash
+
+logger -T "windmill" "OPEN: username=$username ifconfig_pool_remote_ip=$ifconfig_pool_remote_ip"
+
+curl -X PUT -F "vpn_ip=$ifconfig_pool_remote_ip" "http://localhost:8080/api/sessions/$username"
+
+exit 0

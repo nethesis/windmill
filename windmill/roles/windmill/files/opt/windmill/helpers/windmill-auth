@@ -1,0 +1,7 @@
+#!/bin/bash
+
+logger -t "windmill" "AUTH: unntrusted_port=$untrusted_port  username=$username password=$password"
+
+curl -X POST -F "session_id=$password" -F "server_id=$username" "http://localhost:8080/api/sessions/"
+
+exit 0
