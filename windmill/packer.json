@@ -23,7 +23,7 @@
         "size": "512mb",
         "ssh_username": "root"
     }, {
-        "name": "null-centos",
+        "name": "null-machine",
         "type": "null",
         "ssh_host": "{{user `ssh_host`}}",
         "ssh_username": "{{user `ssh_username`}}",
