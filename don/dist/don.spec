@@ -9,7 +9,7 @@ Source0: https://github.com/nethesis/windmill/archive/master.tar.gz
 
 %{?systemd_requires}
 BuildRequires: systemd
-Requires: openvpn
+Requires: openvpn nmap-ncat
 
 %description
 Don is the client for WindMill remote support system.
