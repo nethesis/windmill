@@ -2,6 +2,6 @@
 
 logger -t "windmill" "SSH_STOP_SESSION: vpn_ip=$1 port=$2"
 
-ssh -p $2 root@$1 "systemctl stop sshd-windmill"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p $2 root@$1 "/usr/bin/don stop"
 
 exit 0
