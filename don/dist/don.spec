@@ -35,14 +35,14 @@ and create an ad-hoc SSH server instance.
 %install
 install -D -m644 don/don-sshd.service %{buildroot}/%{_unitdir}/don-sshd.service
 install -D -m644 don/don-openvpn.service %{buildroot}/%{_unitdir}/don-openvpn.service
-install -D -m644 don/don-sshd_config %{buildroot}/usr/share/don/don-sshd_config
+install -D -m644 don/sshd-don_config %{buildroot}/usr/share/don/sshd-don_config
 install -D -m644 don/don.ovpn %{buildroot}/usr/share/don/don.ovpn
 
 
 %files
 /usr/lib/systemd/system/don-openvpn.service
 /usr/lib/systemd/system/don-sshd.service
-%config /usr/share/don/don-sshd_config
+%config /usr/share/don/sshd-don_config
 %config /usr/share/don/don.ovpn
 
 
