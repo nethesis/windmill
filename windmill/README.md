@@ -13,15 +13,18 @@ Before launch packer to provision the machine, edit the following files:
         "public_ip/24":
         - "22"
     ```
-    change `public_ip` with your company/home/office public IPs, to grant access to bastion only from these ips.
+    change `public_ip/24` with your company/home/office public IPs, to grant access to bastion only from these ips.
 
 - `roles/windmill/default/main.yml`
     ```
     ---
     caddy_public_name:
         "example.com"
+    mysql_root_password: 'YourPassWordHere'
     ```
     change `example.com` with the future bastion host's domain
+
+    change `YourPassWordHere` with your MariaDB root password
 
 ## Build
 Launch packer to provision the machine. There are two different building options:

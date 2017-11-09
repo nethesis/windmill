@@ -1,3 +1,4 @@
 ---
 caddy_public_name:
     "example.com"
+mysql_root_password: 'YourPassWordHere'
