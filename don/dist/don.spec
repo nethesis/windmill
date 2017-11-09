@@ -37,6 +37,7 @@ install -D -m644 don/don-sshd.service %{buildroot}/%{_unitdir}/don-sshd.service
 install -D -m644 don/don-openvpn.service %{buildroot}/%{_unitdir}/don-openvpn.service
 install -D -m644 don/sshd-don_config %{buildroot}/usr/share/don/sshd-don_config
 install -D -m644 don/don.ovpn %{buildroot}/usr/share/don/don.ovpn
+touch  %{buildroot}/usr/share/don/authorized_keys
 
 
 %files
@@ -44,6 +45,7 @@ install -D -m644 don/don.ovpn %{buildroot}/usr/share/don/don.ovpn
 /usr/lib/systemd/system/don-sshd.service
 %config /usr/share/don/sshd-don_config
 %config /usr/share/don/don.ovpn
+%config /usr/share/don/authorized_keys
 
 
 %changelog
