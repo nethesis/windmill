@@ -1,0 +1,12 @@
+[Unit]
+Description=WindMill remote SSH support daemon
+Documentation=man:sshd(8) man:sshd_config(5)
+After=network.target sshd-keygen.service sshd.service
+Wants=sshd-keygen.service
+BindsTo=don-openvpn.service
+After=don-openvpn.service
+
+[Service]
+Type=notify
+RuntimeDirectory=don
+ExecStart=/usr/sbin/sshd -D -f /usr/share/don/sshd-don_config
