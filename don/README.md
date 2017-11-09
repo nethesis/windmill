@@ -15,20 +15,34 @@ Config files:
 - /usr/share/don/credentials
 - /usr/share/don/don.ovpn
 
+Check don-openvpn status:
+```
+systemctl status don-openvpn
+```
+
 ### don-sshd
 
-Ad-hoc SSHD instance, accept connections only from tunDON interfaces.
+Ad-hoc SSHD instance, accept connections only from tunDON interfaces:
 
+Check don-sshd status:
+```
+systemctl status don-sshd
+```
 
 ### Start and stop Don
 
 Start Don:
 
 ```
-systemctl start don-sshd
+./don start
 ```
 
 Stop Don
 ```
-systemctl stop don-sshd
+./don stop
+```
+
+Check general Don status:
+```
+./don status
 ```

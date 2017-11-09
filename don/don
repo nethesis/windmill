@@ -1,0 +1,62 @@
+#!/bin/bash
+
+#
+# Copyright (C) 2017 Nethesis S.r.l.
+# http://www.nethesis.it
+#
+# This is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License,
+# or any later version.
+#
+# NethServer is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License.
+# If not, see COPYING.
+#
+
+guard=0
+timeout=60
+socket=/run/don/management
+
+case "$1" in
+start)
+    systemctl start don-openvpn
+    while [ ! -S $socket ]
+    do
+        sleep 1
+        guard=$((guard+1))
+        if [ $guard -gt $timeout ]; then
+            echo "[ERROR] don-openvpn connection failed: no socket found ($socket)"
+            exit 1
+        fi
+    done
+
+    until (echo state | nc -U /run/don/management | grep -q CONNECTED)
+    do
+        sleep 1
+        guard=$((guard+1))
+        if [ $guard -gt $timeout ]; then
+            echo "[ERROR] don-openvpn connection failed: can't connect to remote server"
+            exit 1
+        fi
+    done
+    systemctl start don-sshd
+;;
+stop)
+    systemctl stop don-sshd
+    systemctl stop don-openvpn
+;;
+status)
+    systemctl status don-openvpn
+    echo
+    echo
+    systemctl status don-sshd
+;;
+*)
+    echo $"Usage: $0 {start|stop|status}"
+    exit 2
+esac
