@@ -92,7 +92,7 @@
       - windmill
 
 - name: Copy Caddyfile
-  template: src=Caddyfile.j2 dest=/opt/windmill/caddy/Caddyfile
+  template: src=caddyfile.j2 dest=/opt/windmill/caddy/Caddyfile
   tags:
       - windmill
 
@@ -131,6 +131,16 @@
 
 - name: Enable and start openvpn server aka windmill
   service: name=windmill state=started enabled=yes
+  tags:
+      - windmill
+
+- name: Create ronzinante directory
+  shell: "mkdir -p /opt/windmill/ronzinante"
+  tags:
+      - windmill
+
+- name: Copy ronzinante conf file
+  template: src=ronzinante.j2 dest=/opt/windmill/ronzinante/conf.json
   tags:
       - windmill
 

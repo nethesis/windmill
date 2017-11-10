@@ -1,0 +1,14 @@
+[Unit]
+Description=Ronzinate REST server to initialize and close vpn sessions
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/windmill/ronzinante/
+Environment=GIN_MODE=release
+ExecStart=/opt/windmill/ronzinante/ronzinante
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
