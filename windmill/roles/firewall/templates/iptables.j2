@@ -12,6 +12,8 @@
 # VPN clients can't access anything
 -A INPUT -p tcp -m state --state NEW -s 172.29.0.0/16 -j DROP
 -A INPUT -p udp -m state --state NEW -s 172.29.0.0/16 -j DROP
+-A INPUT -p tcp -m state --state NEW -s 172.28.0.0/16 -j DROP
+-A INPUT -p udp -m state --state NEW -s 172.28.0.0/16 -j DROP
 
 # Allow SSH only from Your Company Public IPs
 {% for network in tcp_accessbyip_v4 %}{% for port in tcp_accessbyip_v4[network] %}
