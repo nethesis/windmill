@@ -1,4 +1,7 @@
-{{ caddy_public_name }} {
+http://{{ caddy_public_name }} {
+    redir https://{{ caddy_public_name }}
+}
+{{ caddy_public_name }}:4443  {
     root /opt/windmill/caddy/srv
     proxy /api localhost:8080
 }
