@@ -21,6 +21,17 @@
 guard=0
 timeout=60
 socket=/run/don/management
+credentials=/run/don/credentials
+
+function show_credentials
+{
+    if [ -f $credentials ]; then
+        echo -n "Server ID:"
+        echo -e "\t"$(sed -n '1{p;q}' $credentials)
+        echo -n "Session ID:"
+        echo -e "\t"$(sed -n '2{p;q}' $credentials)
+    fi
+}
 
 case "$1" in
 start)
@@ -45,16 +56,19 @@ start)
         fi
     done
     systemctl start don-sshd
+    show_credentials
 ;;
 stop)
     systemctl stop don-sshd
     systemctl stop don-openvpn
 ;;
 status)
-    systemctl status don-openvpn
+    show_credentials
+    systemctl --lines 0 status don-openvpn
     echo
     echo
-    systemctl status don-sshd
+    systemctl --lines 0 status don-sshd
+    echo
 ;;
 *)
     echo $"Usage: $0 {start|stop|status}"
