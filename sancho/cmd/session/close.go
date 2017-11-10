@@ -37,10 +37,6 @@ import (
 	"sancho/config"
 )
 
-var (
-	allCloseFlag = false
-)
-
 func closeConnections() {
 	resp, err := http.Get(config.API + "sessions")
 
@@ -102,20 +98,15 @@ var CloseCmd = &cobra.Command{
 	Use: "close <session-id>",
 	Short: "Close Session ID and remove VPN connection",
 	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 1 && !allCloseFlag {
+		if len(args) < 1 {
 			return errors.New(helper.RedString("requires session-id"))
 		}
 		return nil;
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		if allCloseFlag {
-			closeConnections()
-		} else {
-			closeConnection(args[0])
-		}
+		closeConnection(args[0])
 	},
 }
 
 func init() {
-	CloseCmd.Flags().BoolVarP(&allCloseFlag, "all", "a", false, "Close all sessions")
 }
