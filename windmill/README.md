@@ -20,11 +20,16 @@ Before launch packer to provision the machine, edit the following files:
     ---
     caddy_public_name:
         "example.com"
-    mysql_root_password: 'YourPassWordHere'
+    mariadb_root_password:
+        "YourMariaDBPassWordHere"
+    keyholder_passphrase:
+        "YourKeyHolderPassPhrase"
     ```
     change `example.com` with the future bastion host's domain
 
-    change `YourPassWordHere` with your MariaDB root password
+    change `YourMariaDBPassWordHere` with your MariaDB root password
+
+    change `YourKeyHolderPassPhrase` with your secure passphrase to encrypt public ssh key of support ssh-agent
 
 ## Build
 Launch packer to provision the machine. There are two different building options:
@@ -47,3 +52,6 @@ Launch packer to provision the machine. There are two different building options
 After provisioning, check if services is correctly configured
 - `systemctl status windmill` (for the openvpn server)
 - `systemctl status caddy-windmill` (for the caddy web server)
+- `systemctl status ronzinante` (for the ronzinante REST API server)
+- `systemctl status keyholder-agent` (for the keyholder ssh agent)
+- `systemctl status keyholder-proxy`  (for the keyholder ssh proxy)

@@ -17,6 +17,7 @@
       - caddy
       - python34
       - python34-yaml
+      - https://github.com/nethesis/keyholder/releases/download/1.0.1-2/keyholder-1.0.1-2.x86_64.rpm
   tags:
       - windmill
 
@@ -73,18 +74,30 @@
   tags:
       - windmill
 
+- stat: path=/root/.my.cnf
+  register: mariadb_pass
+
 - name: Hardening mariadb installation
   shell: |
     mysql_secure_installation <<EOF
 
     y
-    {{ mysql_root_password }}
-    {{ mysql_root_password }}
+    {{ mariadb_root_password }}
+    {{ mariadb_root_password }}
     y
     y
     y
     y
     EOF
+  when: mariadb_pass.stat.exists == False
+  tags:
+      - windmill
+
+
+- name: Copy mysql conf file
+  template: src=my.cnf.j2 dest=/root/.my.cnf
+  tags:
+      - windmill
 
 - name: Create directory for caddy
   shell: "mkdir -p /opt/windmill/caddy"
@@ -139,8 +152,75 @@
   tags:
       - windmill
 
+- name: Copy ronzinante binary
+  copy: src=ronzinante dest=/opt/windmill/ronzinante/ronzinante mode=0755
+  tags:
+      - windmill
+
 - name: Copy ronzinante conf file
   template: src=ronzinante.j2 dest=/opt/windmill/ronzinante/conf.json
   tags:
       - windmill
 
+- name: Copy systemd unit for ronzinante
+  copy: src=usr/lib/systemd/system/ronzinante.service dest=/usr/lib/systemd/system/ronzinante.service
+  tags:
+      - windmill
+
+- name: Enable and start ronzinante server
+  service: name=ronzinante state=started enabled=yes
+  tags:
+      - windmill
+
+- name: Create support group
+  group:
+    name: ronzinanti
+    state: present
+  tags:
+      - windmill
+
+- stat: path=/etc/keyholder.d/support.pub
+  register: key_support
+
+- name: Generate key for support operators
+  shell: |
+    ssh-keygen -f /etc/keyholder.d/support <<EOF
+    {{ keyholder_passphrase }}
+    {{ keyholder_passphrase }}
+    EOF
+  when: key_support.stat.exists == False
+  tags:
+      - windmill
+
+- name: Set permissions to keyholder keys
+  shell: "chown keyholder:keyholder /etc/keyholder.d/support*"
+  tags:
+      - windmill
+
+- name: Allow support members to use keyholder
+  shell: echo -e "---\nronzinanti:\n - support" > /etc/keyholder-auth.d/support.yaml
+  tags:
+      - windmill
+
+- name: Use keyholder sock by default
+  shell: echo -e "#\n# man keyholder\n#\nexport SSH_AUTH_SOCK=/run/keyholder/proxy.sock" > /etc/profile.d/keyholder.sh
+  tags:
+      - windmill
+
+- name: Enable and start keyholder-agent
+  service: name=keyholder-agent state=started enabled=yes
+  tags:
+      - windmill
+
+- name: Enable and start keyholder-proxy
+  service: name=keyholder-proxy state=started enabled=yes
+  tags:
+      - windmill
+
+- name: Arm keyholder key
+  shell: |
+    keyholder arm <<EOF
+    {{ keyholder_passphrase }}
+    EOF
+  tags:
+      - windmill
