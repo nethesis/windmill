@@ -20,38 +20,29 @@
  * author: Edoardo Spadoni <edoardo.spadoni@nethesis.it>
  */
 
-package main
+ package configuration
 
-import (
-	"github.com/gin-gonic/gin"
-
-	"ronzinante/methods"
-	"ronzinante/configuration"
+ import (
+	"encoding/json"
+    "os"
+    "fmt"
 )
 
-func main() {
-	// read and init configuration
-	configuration.Init()
+ type Configuration struct {
+	DbUser		string	`json:"db_user"`
+	DbPassword	string	`json:"db_password"`
+ }
 
-	// init routers
-	router := gin.Default()
+ var Config = Configuration{}
 
-	sessions := router.Group("/api/sessions")
-	{
-		sessions.GET("/", methods.GetSessions)
-		sessions.GET("/:session_id", methods.GetSession)
-		sessions.POST("/", methods.CreateSession)
-		sessions.PUT("/:server_id", methods.UpdateSession)
-		sessions.DELETE("/:server_id", methods.DeleteSession)
+ func Init() {
+	// read configuration
+	file, _ := os.Open("/opt/windmill/ronzinante/conf.json")
+	decoder := json.NewDecoder(file)
+
+	// check errors or parse JSON
+	err := decoder.Decode(&Config)
+	if err != nil {
+		fmt.Println("error:", err)
 	}
-
-	history := router.Group("/api/histories")
-	{
-		history.GET("/", methods.GetHistories)
-		history.GET("/:server_id", methods.GetHistory)
-		history.PUT("/:server_id", methods.UpdateHistory)
-	}
-
-	router.Run()
-
-}
+ }

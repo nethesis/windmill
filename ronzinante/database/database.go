@@ -25,10 +25,12 @@ package database
 import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+
+	"ronzinante/configuration"
 )
 
 func Database() *gorm.DB {
-	db, err := gorm.Open("mysql", "user:password@tcp(localhost:3306)/windmill?charset=utf8")
+	db, err := gorm.Open("mysql", configuration.Config.DbUser + ":" + configuration.Config.DbPassword + "@tcp(localhost:3306)/windmill?charset=utf8")
 	if err != nil {
 		panic(err.Error())
 	}
