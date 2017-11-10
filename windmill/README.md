@@ -50,8 +50,9 @@ Launch packer to provision the machine. There are two different building options
 
 ## Check configuration
 After provisioning, check if services is correctly configured
-- `systemctl status windmill` (for the openvpn server)
+- `systemctl status windmill@windmill` (for the openvpn server default conf)
+- `systemctl status windmill@windmill-https` (for the openvpn server with https conf)
 - `systemctl status caddy-windmill` (for the caddy web server)
 - `systemctl status ronzinante` (for the ronzinante REST API server)
 - `systemctl status keyholder-agent` (for the keyholder ssh agent)
-- `systemctl status keyholder-proxy`  (for the keyholder ssh proxy)
+- `systemctl status keyholder-proxy` (for the keyholder ssh proxy)

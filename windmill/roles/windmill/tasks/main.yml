@@ -138,12 +138,17 @@
   shell: "semodule -i /opt/windmill/openvpn/windmill.pp"
 
 - name: Copy systemd unit for openvpn windmill
-  copy: src=usr/lib/systemd/system/windmill.service dest=/usr/lib/systemd/system/windmill.service
+  copy: src=usr/lib/systemd/system/windmill@.service dest=/usr/lib/systemd/system/windmill@.service
   tags:
       - windmill
 
-- name: Enable and start openvpn server aka windmill
-  service: name=windmill state=started enabled=yes
+- name: Enable and start openvpn server aka windmill with deafult conf
+  service: name=windmill@windmill state=started enabled=yes
+  tags:
+      - windmill
+
+- name: Enable and start openvpn server aka windmill with https conf
+  service: name=windmill@windmill-https state=started enabled=yes
   tags:
       - windmill
 
