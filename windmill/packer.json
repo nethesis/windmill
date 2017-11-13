@@ -21,7 +21,8 @@
         "image": "centos-7-x64",
         "region": "nyc1",
         "size": "512mb",
-        "ssh_username": "root"
+        "ssh_username": "root",
+        "snapshot_name": "windmill-{{ timestamp }}"
     }, {
         "name": "null-machine",
         "type": "null",
