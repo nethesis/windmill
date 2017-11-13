@@ -50,6 +50,7 @@ Launch packer to provision the machine. There are two different building options
 
 ## Check configuration
 After provisioning, check if services is correctly configured
+- `systemctl status mariadb` (for mariadb database)
 - `systemctl status windmill@windmill` (for the openvpn server default conf)
 - `systemctl status windmill@windmill-https` (for the openvpn server with https conf)
 - `systemctl status caddy-windmill` (for the caddy web server)
