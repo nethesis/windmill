@@ -63,11 +63,11 @@ After provisioning, check if services is correctly configured
 - `systemctl status keyholder-proxy` (for the keyholder ssh proxy)
 
 ## Add operators
-To create new operators and grant access to windmill bastion host, user the command below:
+To create new operators and grant access to windmill bastion host, use the command below:
 
-- `windmill-add-operator <user> <path_of_public_ssh_key_of_user>`
+- `windmill-add-operator <user> <path_of_public_ssh_key_of_user>` (work only for user `root`)
 
-*Example*: Add user edoardo as operator and grant login to bastion host with his public ssh key
+*Example*: Add user `edoardo` as operator and grant login to bastion host with his public ssh key
 ```
 # copy edoardo's ssh key
 echo "ssh-rsa AAAA...XxYyZz edoardo@edoardo-PC" > edoardo-id_rsa.pub
