@@ -1,9 +1,21 @@
 ---
-caddy_public_name:
+machine_hostname:
     "example.com"
-caddy_email:
+admin_email:
     "admin@example.com"
 mariadb_root_password:
     "YourMariaDBPassWordHere"
 keyholder_passphrase:
     "YourKeyHolderPassPhrase"
+ca_name:
+    "EasyWindmill"
+ca_country:
+    "SP"
+ca_province:
+    "MA"
+ca_city:
+    "Mancha"
+ca_org:
+    "WindmillCompany"
+ca_ou:
+    "Windmill Office"

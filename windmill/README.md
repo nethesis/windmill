@@ -7,7 +7,7 @@
 ## Configuration
 Before launch packer to provision the machine, edit the following files:
 - `roles/firewall/defaults/main.yml`
-    ```
+    ```yaml
     ---
     tcp_accessbyip_v4:
         "0.0.0.0/0":
@@ -16,34 +16,59 @@ Before launch packer to provision the machine, edit the following files:
     change `0.0.0.0/0` and `22` with your company/home/office public IPs and SSH port to restric access only from certain ips.
 
 - `roles/windmill/defaults/main.yml`
-    ```
+    ```yaml
     ---
-    caddy_public_name:
+    machine_hostname:
         "example.com"
-    caddy_email:
+    admin_email:
         "admin@example.com"
     mariadb_root_password:
         "YourMariaDBPassWordHere"
     keyholder_passphrase:
         "YourKeyHolderPassPhrase"
+    ca_name:
+        "EasyWindmill"
+    ca_country:
+        "SP"
+    ca_province:
+        "MA"
+    ca_city:
+        "Mancha"
+    ca_org:
+        "WindmillCompany"
+    ca_ou:
+        "Windmill Office"
     ```
-    change `example.com` with the future bastion host's domain
+    change `example.com` with the bastion host's hostname
 
-    change `admin@example.com` with the a valid email address for let's encrypt certificate
+    change `admin@example.com` with the a valid email address (used both for let's encrypt and CA authority)
 
     change `YourMariaDBPassWordHere` with your MariaDB root password
 
     change `YourKeyHolderPassPhrase` with your secure passphrase to encrypt public ssh key of support ssh-agent
 
+    change `EasyWindmill` with CA authority name
+
+    change `SP` with CA authority country
+
+    change `MA` with CA authority province
+
+    change `Mancha` with CA authority city
+
+    change `WindmillCompany` with CA authority organization
+
+    change `Windmill Office` with CA authority OU
+
 ## Build
 Launch packer to provision the machine. There are two different building options:
 - DigitalOcean
-    ```
+
+    ```bash
     DIGITALOCEAN_API_TOKEN=<your_do_api_token> packer build -only=do-centos packer.json
     ```
 
 - Generic Machine
-    ```
+    ```bash
     SSH_HOST=<hostname_of_machine> \
     SSH_USERNAME=<username_to_access_machine> \
     SSH_PASSWORD=<password_of_user> \
@@ -68,7 +93,7 @@ To create new operators and grant access to windmill bastion host, use the comma
 - `windmill-add-operator <user> <path_of_public_ssh_key_of_user>` (work only for user `root`)
 
 *Example*: Add user `edoardo` as operator and grant login to bastion host with his public ssh key
-```
+```bash
 # copy edoardo's ssh key
 echo "ssh-rsa AAAA...XxYyZz edoardo@edoardo-PC" > edoardo-id_rsa.pub
 

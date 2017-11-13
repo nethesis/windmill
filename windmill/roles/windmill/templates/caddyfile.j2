@@ -1,8 +1,8 @@
-http://{{ caddy_public_name }} {
-    redir https://{{ caddy_public_name }}
+http://{{ machine_hostname }} {
+    redir https://{{ machine_hostname }}
 }
-{{ caddy_public_name }}:4443  {
+{{ machine_hostname }}:4443  {
     root /opt/windmill/caddy/srv
     proxy /api localhost:8080
-    tls {{ caddy_email }}
+    tls {{ admin_email }}
 }

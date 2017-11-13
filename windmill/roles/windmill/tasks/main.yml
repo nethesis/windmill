@@ -21,6 +21,10 @@
   tags:
       - windmill
 
+- name: Set machine hostname
+  hostname:
+    name: "{{ machine_hostname }}"
+
 - name: Create windmill directory
   file: state=directory path=/opt/windmill mode=0755
   tags:
@@ -28,6 +32,11 @@
 
 - name: Copy windmill files in it
   copy: src=opt/windmill dest=/opt mode=0755 mode=preserve
+  tags:
+      - windmill
+
+- name: Copy vars for easy-rsa
+  template: src=easy-rsa-vars.j2 dest=/opt/windmill/easy-rsa/vars
   tags:
       - windmill
 

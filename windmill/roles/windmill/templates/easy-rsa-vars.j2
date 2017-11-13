@@ -61,15 +61,15 @@ export KEY_EXPIRE=3650
 # These are the default values for fields
 # which will be placed in the certificate.
 # Don't leave any of these fields blank.
-export KEY_COUNTRY="XX"
-export KEY_PROVINCE="XX"
-export KEY_CITY="xxxxx"
-export KEY_ORG="xxxxx"
-export KEY_EMAIL="xxx@xxx.xxx"
-export KEY_OU="xxxx"
+export KEY_COUNTRY="{{ ca_country }}"
+export KEY_PROVINCE="{{ ca_province }}"
+export KEY_CITY="{{ ca_city }}"
+export KEY_ORG="{{ ca_org }}"
+export KEY_EMAIL="{{ admin_email }}"
+export KEY_OU="{{ ca_ou }}"
 
 # X509 Subject Field
-export KEY_NAME="EasyRSA"
+export KEY_NAME="{{ca_name}}"
 
 # PKCS11 Smart Card
 # export PKCS11_MODULE_PATH="/usr/lib/changeme.so"
