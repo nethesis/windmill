@@ -20,12 +20,16 @@ Before launch packer to provision the machine, edit the following files:
     ---
     caddy_public_name:
         "example.com"
+    caddy_email:
+        "admin@example.com"
     mariadb_root_password:
         "YourMariaDBPassWordHere"
     keyholder_passphrase:
         "YourKeyHolderPassPhrase"
     ```
     change `example.com` with the future bastion host's domain
+
+    change `admin@example.com` with the a valid email address for let's encrypt certificate
 
     change `YourMariaDBPassWordHere` with your MariaDB root password
 
@@ -57,3 +61,17 @@ After provisioning, check if services is correctly configured
 - `systemctl status ronzinante` (for the ronzinante REST API server)
 - `systemctl status keyholder-agent` (for the keyholder ssh agent)
 - `systemctl status keyholder-proxy` (for the keyholder ssh proxy)
+
+## Add operators
+To create new operators and grant access to windmill bastion host, user the command below:
+
+- `windmill-add-operator <user> <path_of_public_ssh_key_of_user>`
+
+*Example*: Add user edoardo as operator and grant login to bastion host with his public ssh key
+```
+# copy edoardo's ssh key
+echo "ssh-rsa AAAA...XxYyZz edoardo@edoardo-PC" > edoardo-id_rsa.pub
+
+# create operator with public ssh key
+windmill-add-operator edoardo edoardo-id_rsa.pub
+```

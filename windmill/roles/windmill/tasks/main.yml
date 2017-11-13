@@ -114,13 +114,13 @@
   tags:
       - windmill
 
-- name: Create document root for caddy
-  shell: "mkdir -p /opt/windmill/caddy/srv && chown caddy:caddy /opt/windmill/caddy/srv"
+- name: Copy systemd unit for caddy
+  copy: src=usr/lib/systemd/system/caddy-windmill.service dest=/usr/lib/systemd/system/caddy-windmill.service
   tags:
       - windmill
 
-- name: Copy systemd unit for caddy
-  copy: src=usr/lib/systemd/system/caddy-windmill.service dest=/usr/lib/systemd/system/caddy-windmill.service
+- name: Grant caddy to bind on low ports
+  command: setcap cap_net_bind_service=+ep /usr/bin/caddy
   tags:
       - windmill
 
@@ -182,7 +182,7 @@
 
 - name: Create support group
   group:
-    name: ronzinanti
+    name: ronzinante
     state: present
   tags:
       - windmill
@@ -192,7 +192,7 @@
 
 - name: Generate key for support operators
   shell: |
-    ssh-keygen -f /etc/keyholder.d/support <<EOF
+    sudo -u keyholder ssh-keygen -f /etc/keyholder.d/support <<EOF
     {{ keyholder_passphrase }}
     {{ keyholder_passphrase }}
     EOF
@@ -206,7 +206,7 @@
       - windmill
 
 - name: Allow support members to use keyholder
-  shell: echo -e "---\nronzinanti:\n - support" > /etc/keyholder-auth.d/support.yaml
+  shell: echo -e "---\nronzinante:\n - support" > /etc/keyholder-auth.d/support.yaml
   tags:
       - windmill
 
@@ -230,5 +230,18 @@
     keyholder arm <<EOF
     {{ keyholder_passphrase }}
     EOF
+  tags:
+      - windmill
+
+- name: Download sancho CLI binary
+  get_url:
+    url: https://github.com/nethesis/windmill/releases/download/0.0.1/sancho
+    dest: /usr/local/bin/sancho
+    mode: 0755
+  tags:
+      - windmill
+
+- name: Copy windmill-add-operator helper
+  copy: src=usr/local/sbin/windmill-add-operator dest=/usr/local/sbin/windmill-add-operator mode=0755
   tags:
       - windmill

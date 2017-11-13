@@ -1,6 +1,8 @@
 ---
 caddy_public_name:
     "example.com"
+caddy_email:
+    "admin@example.com"
 mariadb_root_password:
     "YourMariaDBPassWordHere"
 keyholder_passphrase:
