@@ -15,7 +15,7 @@ Before launch packer to provision the machine, edit the following files:
     ```
     change `0.0.0.0/0` and `22` with your company/home/office public IPs and SSH port to restric access only from certain ips.
 
-- `roles/windmill/default/main.yml`
+- `roles/windmill/defaults/main.yml`
     ```
     ---
     caddy_public_name:
