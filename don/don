@@ -42,7 +42,7 @@ start)
         guard=$((guard+1))
         if [ $guard -gt $timeout ]; then
             echo "[ERROR] don-openvpn connection failed: no socket found ($socket)"
-            exit 1
+            exit 7
         fi
     done
 
@@ -52,7 +52,7 @@ start)
         guard=$((guard+1))
         if [ $guard -gt $timeout ]; then
             echo "[ERROR] don-openvpn connection failed: can't connect to remote server"
-            exit 1
+            exit 8
         fi
     done
     systemctl start don-sshd
@@ -64,11 +64,13 @@ stop)
 ;;
 status)
     show_credentials
-    systemctl --lines 0 status don-openvpn
     echo
+    systemctl --lines 0 status don-openvpn
+    ret1=$?
     echo
     systemctl --lines 0 status don-sshd
-    echo
+    ret2=$?
+    exit $((ret1+ret2))
 ;;
 *)
     echo $"Usage: $0 {start|stop|status}"
