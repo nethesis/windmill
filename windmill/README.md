@@ -10,10 +10,10 @@ Before launch packer to provision the machine, edit the following files:
     ```
     ---
     tcp_accessbyip_v4:
-        "public_ip/24":
-        - "22"
+        "0.0.0.0/0":
+            - "22"
     ```
-    change `public_ip/24` with your company/home/office public IPs, to grant access to bastion only from these ips.
+    change `0.0.0.0/0` and `22` with your company/home/office public IPs and SSH port to restric access only from certain ips.
 
 - `roles/windmill/default/main.yml`
     ```

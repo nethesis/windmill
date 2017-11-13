@@ -157,8 +157,11 @@
   tags:
       - windmill
 
-- name: Copy ronzinante binary
-  copy: src=ronzinante dest=/opt/windmill/ronzinante/ronzinante mode=0755
+- name: Download ronzinante binary
+  get_url:
+    url: https://github.com/nethesis/windmill/releases/download/0.0.1/ronzinante
+    dest: /opt/windmill/ronzinante/ronzinante
+    mode: 0755
   tags:
       - windmill
 
