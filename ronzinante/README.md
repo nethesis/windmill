@@ -4,7 +4,7 @@
 
 - `/opt/windmill/ronzinante/conf.json`
 
-```
+```json
 {
     "db_user": "root",
     "db_password": "YourMariaDBPassWordHere"
