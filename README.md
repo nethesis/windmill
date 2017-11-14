@@ -1,6 +1,8 @@
 # WindMill
 
-<div style="text-align:center"><img src ="https://github.com/gsanchietti/windmill/raw/master/logo/logo.png" /></div>
+<p align="center">
+   <img src ="https://github.com/gsanchietti/windmill/raw/master/logo/logo.png" />
+</p>
 
 How many time did you have the need to connect to a customer server but the customer didn't want to open the SSH server?
 It's almost like tilting at windmills!
