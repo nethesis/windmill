@@ -23,9 +23,14 @@
 package main
 
 import (
+	"sancho/configuration"
 	"sancho/cmd"
 )
 
 func main() {
+	// read and init configuration
+	configuration.Init()
+
+	// initialize CLI
 	cmd.Execute()
 }

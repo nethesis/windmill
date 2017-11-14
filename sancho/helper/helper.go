@@ -32,7 +32,7 @@ import (
 	"github.com/briandowns/spinner"
 
 	"sancho/model"
-	"sancho/config"
+	"sancho/configuration"
 )
 
 var (
@@ -57,7 +57,7 @@ func StopLoader() {
 }
 
 func GetSessionIp(sessionId string) string{
-	resp, err := http.Get(config.API + "sessions/" + sessionId)
+	resp, err := http.Get(configuration.Config.APIEndpoint + "sessions/" + sessionId)
 
 	if err != nil {
 		RedPanic(err.Error())

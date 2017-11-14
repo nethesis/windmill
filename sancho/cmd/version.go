@@ -27,7 +27,6 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"sancho/config"
 	"sancho/helper"
 )
 
@@ -35,7 +34,7 @@ var versionCmd = &cobra.Command{
 	Use: "version",
 	Short: "Show Windmill support CLI version",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println(RootCmd.Use + " " + helper.CyanString(config.VERSION))
+		fmt.Println(RootCmd.Use + " " + helper.CyanString("0.0.1"))
 	},
 }
 

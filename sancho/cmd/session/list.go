@@ -32,7 +32,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"sancho/model"
-	"sancho/config"
+	"sancho/configuration"
 	"sancho/helper"
 )
 
@@ -72,7 +72,7 @@ func printSession(session model.Session) {
 }
 
 func listSessions() {
-	resp, err := http.Get(config.API + "sessions")
+	resp, err := http.Get(configuration.Config.APIEndpoint + "sessions")
 
 	if err != nil {
 		helper.RedPanic(err.Error())
@@ -100,7 +100,7 @@ func listSessions() {
 }
 
 func listSession(sessionId string) {
-	resp, err := http.Get(config.API + "sessions/" + sessionId)
+	resp, err := http.Get(configuration.Config.APIEndpoint + "sessions/" + sessionId)
 
 	if err != nil {
 		helper.RedPanic(err.Error())
@@ -127,7 +127,7 @@ func listSession(sessionId string) {
 
 var ListCmd = &cobra.Command{
 	Use: "list [session-id]",
-	Short: "Show all VPNs of connected servers",
+	Short: "Show all connected servers sessions",
 	Args: cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 1 {
@@ -140,5 +140,5 @@ var ListCmd = &cobra.Command{
 
 func init() {
 	ListCmd.Flags().BoolVarP(&jsonFlag, "json", "j", false, "Print output in JSON format")
-	ListCmd.Flags().BoolVarP(&quietFlag, "quiet", "q", false, "Print only sessions ID")
+	ListCmd.Flags().BoolVarP(&quietFlag, "quiet", "q", false, "Print only Session ID")
 }

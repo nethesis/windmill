@@ -31,12 +31,12 @@ import (
 	"github.com/spf13/cobra"
 
 	"sancho/helper"
-	"sancho/config"
+	"sancho/configuration"
 )
 
 func connectSession(sessionId string) {
 	vpnIp := helper.GetSessionIp(sessionId)
-	port := config.DEFAULT_SSH_PORT
+	port := configuration.Config.SSHPort
 
 	if (len(vpnIp) > 0) {
 		fmt.Printf("Try connection on %s session...\n", helper.GreenString(sessionId))

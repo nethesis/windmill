@@ -27,8 +27,6 @@
 
 	 "github.com/spf13/cobra"
 
-	 "sancho/config"
-	 "sancho/helper"
 	 "sancho/cmd/session"
  )
 
@@ -37,7 +35,7 @@
 	 Short: "Perform action to sessions",
 	 Args: cobra.MinimumNArgs(1),
 	 Run: func(cmd *cobra.Command, args []string) {
-		 fmt.Println(RootCmd.Use + " " + helper.CyanString(config.VERSION))
+		 fmt.Println(RootCmd.Use)
 	 },
  }
 

@@ -20,10 +20,29 @@
  * author: Edoardo Spadoni <edoardo.spadoni@nethesis.it>
  */
 
-package config
+ package configuration
 
-var (
-	VERSION = "0.0.1"
-	DEFAULT_SSH_PORT = "981"
-	API = "http://localhost:8080/api/"
-)
+ import (
+	"encoding/json"
+    "os"
+    "fmt"
+ )
+
+ type Configuration struct {
+	SSHPort		string	`json:"ssh_port"`
+	APIEndpoint	string	`json:"api_endpoint"`
+ }
+
+ var Config = Configuration{}
+
+ func Init() {
+	// read configuration
+	file, _ := os.Open("/opt/windmill/sancho/conf.json")
+	decoder := json.NewDecoder(file)
+
+	// check errors or parse JSON
+	err := decoder.Decode(&Config)
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+ }

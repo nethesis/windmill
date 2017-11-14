@@ -34,11 +34,11 @@ import (
 
 	"sancho/model"
 	"sancho/helper"
-	"sancho/config"
+	"sancho/configuration"
 )
 
 func closeConnections() {
-	resp, err := http.Get(config.API + "sessions")
+	resp, err := http.Get(configuration.Config.APIEndpoint + "sessions")
 
 	if err != nil {
 		helper.RedPanic(err.Error())
@@ -67,7 +67,7 @@ func closeConnections() {
 
 func closeConnection(sessionId string) {
 	vpnIp := helper.GetSessionIp(sessionId)
-	port := config.DEFAULT_SSH_PORT
+	port := configuration.Config.SSHPort
 
 	if (len(vpnIp) > 0) {
 		helper.StartLoader()
