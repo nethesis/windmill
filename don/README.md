@@ -49,6 +49,9 @@ systemctl status don-sshd
 
 4. Customize your firewall rules to allow SSH connections from `tunDON` network device.
 
+5. Create a custom `/usr/share/don/post-hook` script if you want to execute some operations
+   when Don is started.
+
 ### Start and stop Don
 
 Start Don:

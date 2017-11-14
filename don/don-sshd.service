@@ -10,3 +10,4 @@ After=don-openvpn.service
 Type=notify
 RuntimeDirectory=don
 ExecStart=/usr/sbin/sshd -D -f /usr/share/don/sshd-don_config
+ExecStartPost=-/usr/share/don/post-hook
