@@ -1,0 +1,4 @@
+{
+    "ssh_port": "981",
+    "api_endpoint": "http://localhost:8080/api/"
+}
