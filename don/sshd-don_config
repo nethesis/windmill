@@ -11,6 +11,7 @@ MaxStartups 10:30:60
 PasswordAuthentication no
 PermitRootLogin yes
 AuthenticationMethods publickey
+AllowAgentForwarding no
 
 UsePrivilegeSeparation sandbox
 X11Forwarding no
