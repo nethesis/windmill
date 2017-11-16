@@ -1,5 +1,5 @@
 Name: don
-Version: 0.0.2
+Version: 0.0.3
 Release: 1%{?dist}
 Summary: Don is the client for WindMill remote support system
 
@@ -52,6 +52,9 @@ touch  %{buildroot}/usr/share/don/authorized_keys
 
 
 %changelog
+* Thu Nov 16 2017 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 0.0.3
+- Disable agent forwarding on sshd instance
+
 * Tue Nov 14 2017 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 0.0.2
 - First public release
 
