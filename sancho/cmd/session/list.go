@@ -64,7 +64,7 @@ func printSession(session model.Session) {
 			fmt.Println(session.SessionId)
 		} else {
 			fmt.Printf("session: %s\n", helper.GreenString(session.SessionId))
-			fmt.Printf("  server:\t\t%s\n", session.ServerId)
+			fmt.Printf("  server:\t%s\n", session.ServerId)
 			fmt.Printf("  vpn:\t\t%s\n", session.VpnIp)
 			fmt.Printf("  started:\t%s\n\n", session.Started)
 		}
