@@ -8,7 +8,7 @@ PartOf=don-sshd.service
 Type=notify
 PrivateTmp=true
 RuntimeDirectory=don
-ExecStartPre=-/usr/share/don/create-credentials
+ExecStartPre=-/usr/share/don/hook pre-start
 ExecStart=/usr/sbin/openvpn --cd /usr/share/don/ --config don.ovpn
 
 [Install]
