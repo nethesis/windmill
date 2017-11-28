@@ -42,15 +42,23 @@ systemctl status don-sshd
 2. Copy your WindMill support public key into `/usr/share/don/authorized_keys` file,
    you can find it inside your WindMill server under `/etc/keyholder.d/support.pub`.
 
-3. Create a custom `/usr/share/don/create-credentials` script, which saves OpenVPN credentials
-   inside `/run/don/credentials` file.
-   The credential file must contain two lines: on the first one put the server identification,
-   on the second one add a unique session identifier. You can use `uuidgen` command for it.
+3. Customize your firewall rules to allow SSH connections from `tunDON` network device.
 
-4. Customize your firewall rules to allow SSH connections from `tunDON` network device.
+4. Customize Don start and stop hooks to create OpenVPN credentials or to configure the system.
+   See below section.
 
-5. Create a custom `/usr/share/don/post-hook` script if you want to execute some operations
-   when Don is started.
+#### Hooks
+
+Don can invoke custom executable scripts from following directories:
+
+- `/usr/share/don/pre-start-hook.d`: these scripts are executed before the OpenVPN tunnel has been established.
+   Add here a script which saves OpenVPN credentials inside `/run/don/credentials` file.
+
+- `/usr/share/don/start-hook.d`: these scripts are executed after SSHD instance has been started.
+   Add here any scripts needed to prepare the system, like creating extra ad-hoc users for remote support.
+
+- `/usr/share/don/post-hook.d`: these scripts are executed after SSHD instance has been stopped.
+  Add ere any scripts needed to revert modifications done by the start-hook scripts.
 
 ### Start and stop Don
 

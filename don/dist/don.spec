@@ -1,5 +1,5 @@
 Name: don
-Version: 0.0.3
+Version: 0.0.4
 Release: 1%{?dist}
 Summary: Don is the client for WindMill remote support system
 
@@ -37,7 +37,11 @@ install -D -m644 don/don-sshd.service %{buildroot}/%{_unitdir}/don-sshd.service
 install -D -m644 don/don-openvpn.service %{buildroot}/%{_unitdir}/don-openvpn.service
 install -D -m644 don/sshd-don_config %{buildroot}/usr/share/don/sshd-don_config
 install -D -m644 don/don.ovpn %{buildroot}/usr/share/don/don.ovpn
+install -D -m755 don/hook %{buildroot}/usr/share/don/hook
 install -D -m755 don/don %{buildroot}/%{_bindir}/don
+mkdir -p  %{buildroot}/usr/share/don/stop-hook.d
+mkdir -p  %{buildroot}/usr/share/don/pre-start-hook.d
+mkdir -p  %{buildroot}/usr/share/don/start-hook.d
 touch  %{buildroot}/usr/share/don/authorized_keys
 
 
@@ -45,13 +49,20 @@ touch  %{buildroot}/usr/share/don/authorized_keys
 /usr/lib/systemd/system/don-openvpn.service
 /usr/lib/systemd/system/don-sshd.service
 %{_bindir}/don
+/usr/share/don/hook
 %config /usr/share/don/sshd-don_config
 %config /usr/share/don/don.ovpn
 %config /usr/share/don/authorized_keys
+%dir /usr/share/don/pre-start-hook.d
+%dir /usr/share/don/start-hook.d
+%dir /usr/share/don/stop-hook.d
 %doc don/README.md
 
 
 %changelog
+* Tue Nov 28 2017 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 0.0.4
+- Add hook script
+
 * Thu Nov 16 2017 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 0.0.3
 - Disable agent forwarding on sshd instance
 

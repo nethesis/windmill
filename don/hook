@@ -1,0 +1,25 @@
+#!/bin/bash
+
+#
+# Takes the action name as first parameter.
+# Launch all executables scripts inside /usr/share/don/$action-hook.d directory
+#
+
+action=$1
+
+if [ -z "$action" ]; then
+   exit 1
+fi
+
+SCRIPT_DIR=/usr/share/don/$action-hook.d
+
+if [ ! -d $SCRIPT_DIR ]; then
+    exit 1
+fi
+
+for script in $(find $SCRIPT_DIR -type f)
+do
+    if [ -x $script ]; then
+        $script
+    fi
+done
