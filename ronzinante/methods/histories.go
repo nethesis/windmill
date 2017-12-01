@@ -83,7 +83,7 @@
 	 serverId := c.Param("server_id")
 
 	 db := database.Database()
-	 db.Where("server_id = ?", serverId).First(&history)
+	 db.Where("server_id = ?", serverId).Find(&history)
 
 	 if history.Id == 0 {
 		 c.JSON(http.StatusNotFound, gin.H{"message": "No history found!"})

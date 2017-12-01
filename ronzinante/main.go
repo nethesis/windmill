@@ -45,11 +45,19 @@ func main() {
 		sessions.DELETE("/:server_id", methods.DeleteSession)
 	}
 
-	history := router.Group("/api/histories")
+	histories := router.Group("/api/histories")
 	{
-		history.GET("/", methods.GetHistories)
-		history.GET("/:server_id", methods.GetHistory)
-		history.PUT("/:server_id", methods.UpdateHistory)
+		histories.GET("/", methods.GetHistories)
+		histories.GET("/:server_id", methods.GetHistory)
+		histories.PUT("/:server_id", methods.UpdateHistory)
+	}
+
+	logs := router.Group("/api/logs")
+	{
+		logs.GET("/", methods.GetLogs)
+		logs.GET("/:session_id", methods.GetLog)
+		logs.POST("/", methods.CreateLog)
+		logs.PUT("/:log_id", methods.UpdateLog)
 	}
 
 	router.Run()
