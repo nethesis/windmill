@@ -41,7 +41,7 @@ func connectSession(sessionId string) {
 	if (len(vpnIp) > 0) {
 		fmt.Printf("Try connection on %s session...\n", helper.GreenString(sessionId))
 
-		vpnCmd := exec.Command("/opt/windmill/helpers/windmill-start-ssh", vpnIp, port)
+		vpnCmd := exec.Command("/opt/windmill/helpers/windmill-start-ssh", vpnIp, port, sessionId)
 		vpnCmd.Stdin = os.Stdin
 		vpnCmd.Stdout = os.Stdout
 		vpnCmd.Stderr = os.Stderr
