@@ -2,6 +2,16 @@
 
 logger -t "windmill" "SSH_START_SESSION: vpn_ip=$1 port=$2"
 
+# create session log
+log_id=$(curl -s -X POST \
+-F "session_id=$3" \
+-F "operator_id=$(whoami)" \
+"http://localhost:8080/api/logs/" | grep -P '\d+' -o)
+
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p $2 root@$1
+
+# after ssh close, update info on logs
+curl -s -X PUT \
+"http://localhost:8080/api/logs/$log_id" >/dev/null
 
 exit 0

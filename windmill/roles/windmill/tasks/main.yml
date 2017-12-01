@@ -83,6 +83,19 @@
   tags:
       - windmill
 
+- name: Copy logs.sql db to host
+  copy: src=logs.sql dest=/tmp/logs.sql
+  tags:
+      - windmill
+
+- name: Create logs table
+  mysql_db:
+    state: import
+    name: windmill
+    target: /tmp/logs.sql
+  tags:
+      - windmill
+
 - stat: path=/root/.my.cnf
   register: mariadb_pass
 
