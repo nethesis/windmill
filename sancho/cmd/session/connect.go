@@ -53,7 +53,7 @@ func connectSession(sessionId string) {
 }
 
 var ConnectCmd = &cobra.Command{
-	Use: "connect <session-id>",
+	Use: "ssh <session-id>",
 	Short: "Connect to server by specify Session ID",
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) < 1 {
