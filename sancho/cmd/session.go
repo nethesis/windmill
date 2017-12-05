@@ -23,8 +23,6 @@
  package cmd
 
  import (
-	 "fmt"
-
 	 "github.com/spf13/cobra"
 
 	 "sancho/cmd/session"
@@ -34,9 +32,6 @@
 	 Use: "session <command>",
 	 Short: "Perform action to sessions",
 	 Args: cobra.MinimumNArgs(1),
-	 Run: func(cmd *cobra.Command, args []string) {
-		 fmt.Println(RootCmd.Use)
-	 },
  }
 
  func init() {
