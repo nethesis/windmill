@@ -62,6 +62,8 @@
 	 history.TrustedIp = trusted_ip
 	 history.TrustedPort = trusted_port
 	 db.Save(&history)
+
+	 db.Close()
  }
 
  func GetHistories(c *gin.Context) {
@@ -74,6 +76,8 @@
 		 c.JSON(http.StatusNotFound, gin.H{"message": "No histories found!"})
 		 return
 	 }
+
+	 db.Close()
 
 	 c.JSON(http.StatusOK, histories)
  }
@@ -89,6 +93,8 @@
 		 c.JSON(http.StatusNotFound, gin.H{"message": "No history found!"})
 		 return
 	 }
+
+	 db.Close()
 
 	 c.JSON(http.StatusOK, history)
  }

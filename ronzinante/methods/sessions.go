@@ -48,6 +48,8 @@
 	 db := database.Database()
 	 db.Save(&session)
 
+	 db.Close()
+
 	 c.JSON(http.StatusCreated, gin.H{"id": session.Id})
  }
 
@@ -66,6 +68,8 @@
 
 	 session.VpnIp = vpnIp
 	 db.Save(&session)
+
+	 db.Close()
  }
 
  func GetSessions(c *gin.Context) {
@@ -78,6 +82,8 @@
 		 c.JSON(http.StatusNotFound, gin.H{"message": "No sessions found!"})
 		 return
 	 }
+
+	 db.Close()
 
 	 c.JSON(http.StatusOK, sessions)
  }
@@ -93,6 +99,8 @@
 		 c.JSON(http.StatusNotFound, gin.H{"message": "No session found!"})
 		 return
 	 }
+
+	 db.Close()
 
 	 c.JSON(http.StatusOK, session)
  }
@@ -116,8 +124,9 @@
 	 history.Started = time.Now().String()
 	 db.Save(&history)
 
-	 // delete session
 	 db.Delete(&session)
+
+	 db.Close()
 
 	 c.JSON(http.StatusOK, gin.H{"message": "Session deleted successfully!"})
  }

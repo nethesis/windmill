@@ -58,6 +58,8 @@
 
 	  db.Save(&log)
 
+	  db.Close()
+
 	  c.JSON(http.StatusCreated, gin.H{"id": log.Id})
   }
 
@@ -75,6 +77,8 @@
 
 	log.SessionDisconnected = time.Now().String()
 	db.Save(&log)
+
+	db.Close()
 }
 
   func GetLogs(c *gin.Context) {
@@ -87,6 +91,8 @@
 		  c.JSON(http.StatusNotFound, gin.H{"message": "No logs found!"})
 		  return
 	  }
+
+	  db.Close()
 
 	  c.JSON(http.StatusOK, logs)
   }
@@ -102,6 +108,8 @@
 		  c.JSON(http.StatusNotFound, gin.H{"message": "No log found!"})
 		  return
 	  }
+
+	  db.Close()
 
 	  c.JSON(http.StatusOK, log)
   }
