@@ -1,7 +1,7 @@
 # WindMill
 
 <p align="center">
-   <img src ="https://github.com/gsanchietti/windmill/raw/master/logo/logo.png" />
+   <img src ="https://github.com/nethesis/windmill/raw/master/logo/logo.png" />
 </p>
 
 How many time did you have the need to connect to a customer server but the customer didn't want to open the SSH server?
