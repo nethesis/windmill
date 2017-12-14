@@ -3,6 +3,5 @@ http://{{ machine_hostname }} {
 }
 {{ machine_hostname }}:4443  {
     root /opt/windmill/caddy/srv
-    proxy /api localhost:8080
     tls {{ admin_email }}
 }
