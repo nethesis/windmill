@@ -20,50 +20,50 @@
  * author: Edoardo Spadoni <edoardo.spadoni@nethesis.it>
  */
 
- package methods
+package methods
 
-  import (
-	  "net/http"
-	  "time"
+import (
+	"net/http"
+	"time"
 
-	  "github.com/gin-gonic/gin"
-	  _ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/gin-gonic/gin"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 
-	  "ronzinante/database"
-	  "ronzinante/models"
-  )
+	"ronzinante/database"
+	"ronzinante/models"
+)
 
-  func CreateLog(c *gin.Context) {
-	  sessionId := c.PostForm("session_id")
-	  operatorId := c.PostForm("operator_id")
+func CreateLog(c *gin.Context) {
+	sessionId := c.PostForm("session_id")
+	operatorId := c.PostForm("operator_id")
 
-	  var session models.Session
-	  db := database.Database()
-	  db.Where("session_id = ?", sessionId).First(&session)
+	var session models.Session
+	db := database.Database()
+	db.Where("session_id = ?", sessionId).First(&session)
 
-	  if session.Id == 0 {
-		  c.JSON(http.StatusNotFound, gin.H{"message": "No session found!"})
-		  return
-	  }
+	if session.Id == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"message": "No session found!"})
+		return
+	}
 
-	  sessionCreated := session.Started
-	  sessionConnected := time.Now().String()
+	sessionCreated := session.Started
+	sessionConnected := time.Now().String()
 
-	  log := models.Log{
-		  SessionId: sessionId,
-		  OperatorId: operatorId,
-		  SessionCreated: sessionCreated,
-		  SessionConnected: sessionConnected,
-	  }
+	log := models.Log{
+		SessionId:        sessionId,
+		OperatorId:       operatorId,
+		SessionCreated:   sessionCreated,
+		SessionConnected: sessionConnected,
+	}
 
-	  db.Save(&log)
+	db.Save(&log)
 
-	  db.Close()
+	db.Close()
 
-	  c.JSON(http.StatusCreated, gin.H{"id": log.Id})
-  }
+	c.JSON(http.StatusCreated, gin.H{"id": log.Id})
+}
 
-  func UpdateLog(c *gin.Context) {
+func UpdateLog(c *gin.Context) {
 	var log models.Log
 	logId := c.Param("log_id")
 
@@ -81,35 +81,35 @@
 	db.Close()
 }
 
-  func GetLogs(c *gin.Context) {
-	  var logs []models.Log
+func GetLogs(c *gin.Context) {
+	var logs []models.Log
 
-	  db := database.Database()
-	  db.Find(&logs)
+	db := database.Database()
+	db.Find(&logs)
 
-	  if len(logs) <= 0 {
-		  c.JSON(http.StatusNotFound, gin.H{"message": "No logs found!"})
-		  return
-	  }
+	if len(logs) <= 0 {
+		c.JSON(http.StatusNotFound, gin.H{"message": "No logs found!"})
+		return
+	}
 
-	  db.Close()
+	db.Close()
 
-	  c.JSON(http.StatusOK, logs)
-  }
+	c.JSON(http.StatusOK, logs)
+}
 
-  func GetLog(c *gin.Context) {
-	  var log models.Log
-	  sessionId := c.Param("session_id")
+func GetLog(c *gin.Context) {
+	var log models.Log
+	sessionId := c.Param("session_id")
 
-	  db := database.Database()
-	  db.Where("session_id = ?", sessionId).Find(&log)
+	db := database.Database()
+	db.Where("session_id = ?", sessionId).Find(&log)
 
-	  if log.Id == 0 {
-		  c.JSON(http.StatusNotFound, gin.H{"message": "No log found!"})
-		  return
-	  }
+	if log.Id == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"message": "No log found!"})
+		return
+	}
 
-	  db.Close()
+	db.Close()
 
-	  c.JSON(http.StatusOK, log)
-  }
+	c.JSON(http.StatusOK, log)
+}

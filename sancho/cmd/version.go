@@ -31,7 +31,7 @@ import (
 )
 
 var versionCmd = &cobra.Command{
-	Use: "version",
+	Use:   "version",
 	Short: "Show Windmill support CLI version",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println(RootCmd.Use + " " + helper.CyanString("0.0.1"))

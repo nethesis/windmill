@@ -23,16 +23,16 @@
 package models
 
 type History struct {
-	Id						uint		`db:"id" json:"id"`
-	SessionId				string		`db:"session_id" json:"session"`
-	ServerId				string		`db:"server_id" json:"server"`
-	Started					string		`db:"started" json:"started"`
-	BytesReceived			string		`db:"bytes_received" json:"bytes_received"`
-	BytesSent				string		`db:"bytes_sent" json:"bytes_sent"`
-	IfconfigPoolLocalIp		string		`db:"ifconfig_pool_local_ip" json:"ifconfig_pool_local_ip"`
-	IfconfigPoolNetmask		string		`db:"ifconfig_pool_netmask" json:"ifconfig_pool_netmask"`
-	IfconfigPoolRemoteIp	string		`db:"ifconfig_pool_remote_ip" json:"ifconfig_pool_remote_ip"`
-	TimeDuration			string		`db:"time_duration" json:"time_duration"`
-	TrustedIp				string		`db:"trusted_ip" json:"trusted_ip"`
-	TrustedPort				string		`db:"trusted_port" json:"trusted_port"`
+	Id                   uint   `db:"id" json:"id"`
+	SessionId            string `db:"session_id" json:"session"`
+	ServerId             string `db:"server_id" json:"server"`
+	Started              string `db:"started" json:"started"`
+	BytesReceived        string `db:"bytes_received" json:"bytes_received"`
+	BytesSent            string `db:"bytes_sent" json:"bytes_sent"`
+	IfconfigPoolLocalIp  string `db:"ifconfig_pool_local_ip" json:"ifconfig_pool_local_ip"`
+	IfconfigPoolNetmask  string `db:"ifconfig_pool_netmask" json:"ifconfig_pool_netmask"`
+	IfconfigPoolRemoteIp string `db:"ifconfig_pool_remote_ip" json:"ifconfig_pool_remote_ip"`
+	TimeDuration         string `db:"time_duration" json:"time_duration"`
+	TrustedIp            string `db:"trusted_ip" json:"trusted_ip"`
+	TrustedPort          string `db:"trusted_port" json:"trusted_port"`
 }

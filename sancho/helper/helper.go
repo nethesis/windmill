@@ -23,25 +23,25 @@
 package helper
 
 import (
-	"time"
-	"net/http"
-	"io/ioutil"
 	"encoding/json"
+	"io/ioutil"
+	"net/http"
+	"time"
 
-	"github.com/fatih/color"
 	"github.com/briandowns/spinner"
+	"github.com/fatih/color"
 
-	"sancho/model"
 	"sancho/configuration"
+	"sancho/model"
 )
 
 var (
-	SuccessLog = color.New(color.FgHiGreen).PrintfFunc()
-	ErrorLog = color.New(color.FgHiRed).PrintfFunc()
+	SuccessLog  = color.New(color.FgHiGreen).PrintfFunc()
+	ErrorLog    = color.New(color.FgHiRed).PrintfFunc()
 	GreenString = color.HiGreenString
-	RedString = color.HiRedString
-	CyanString = color.HiCyanString
-	Loader = spinner.New(spinner.CharSets[41], 100*time.Millisecond)
+	RedString   = color.HiRedString
+	CyanString  = color.HiCyanString
+	Loader      = spinner.New(spinner.CharSets[41], 100*time.Millisecond)
 )
 
 func RedPanic(err string) {
@@ -56,7 +56,7 @@ func StopLoader() {
 	Loader.Stop()
 }
 
-func GetSessionIp(sessionId string) string{
+func GetSessionIp(sessionId string) string {
 	resp, err := http.Get(configuration.Config.APIEndpoint + "sessions/" + sessionId)
 
 	if err != nil {
@@ -64,7 +64,7 @@ func GetSessionIp(sessionId string) string{
 	}
 	defer resp.Body.Close()
 
-	if (resp.StatusCode < 300) {
+	if resp.StatusCode < 300 {
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			RedPanic(err.Error())

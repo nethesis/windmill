@@ -30,7 +30,7 @@ import (
 )
 
 func Database() *gorm.DB {
-	db, err := gorm.Open("mysql", configuration.Config.DbUser + ":" + configuration.Config.DbPassword + "@tcp(localhost:3306)/windmill?charset=utf8")
+	db, err := gorm.Open("mysql", configuration.Config.DbUser+":"+configuration.Config.DbPassword+"@tcp(localhost:3306)/windmill?charset=utf8")
 	if err != nil {
 		panic(err.Error())
 	}

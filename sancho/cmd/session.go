@@ -20,23 +20,23 @@
  * author: Edoardo Spadoni <edoardo.spadoni@nethesis.it>
  */
 
- package cmd
+package cmd
 
- import (
-	 "github.com/spf13/cobra"
+import (
+	"github.com/spf13/cobra"
 
-	 "sancho/cmd/session"
- )
+	"sancho/cmd/session"
+)
 
- var sessionCmd = &cobra.Command{
-	 Use: "session <command>",
-	 Short: "Perform action to sessions",
-	 Args: cobra.MinimumNArgs(1),
- }
+var sessionCmd = &cobra.Command{
+	Use:   "session <command>",
+	Short: "Perform action to sessions",
+	Args:  cobra.MinimumNArgs(1),
+}
 
- func init() {
-	 RootCmd.AddCommand(sessionCmd)
-	 sessionCmd.AddCommand(session.ListCmd);
-	 sessionCmd.AddCommand(session.CloseCmd);
-	 sessionCmd.AddCommand(session.ConnectCmd);
- }
+func init() {
+	RootCmd.AddCommand(sessionCmd)
+	sessionCmd.AddCommand(session.ListCmd)
+	sessionCmd.AddCommand(session.CloseCmd)
+	sessionCmd.AddCommand(session.ConnectCmd)
+}

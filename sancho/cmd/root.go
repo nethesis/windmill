@@ -33,7 +33,7 @@ import (
 )
 
 var RootCmd = &cobra.Command{
-	Use: "sancho",
+	Use:   "sancho",
 	Short: helper.CyanString("Windmill support CLI"),
 }
 

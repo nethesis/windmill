@@ -20,13 +20,13 @@
  * author: Edoardo Spadoni <edoardo.spadoni@nethesis.it>
  */
 
- package models
+package models
 
- type Log struct {
-	 Id						uint		`db:"id" json:"id"`
-	 SessionId				string		`db:"session_id" json:"session"`
-	 OperatorId				string		`db:"operator_ip" json:"operator"`
-	 SessionCreated			string		`db:"session_created" json:"session_created"`
-	 SessionConnected		string		`db:"session_connected" json:"session_connected"`
-	 SessionDisconnected	string		`db:"session_disconnected" json:"session_disconnected"`
- }
+type Log struct {
+	Id                  uint   `db:"id" json:"id"`
+	SessionId           string `db:"session_id" json:"session"`
+	OperatorId          string `db:"operator_ip" json:"operator"`
+	SessionCreated      string `db:"session_created" json:"session_created"`
+	SessionConnected    string `db:"session_connected" json:"session_connected"`
+	SessionDisconnected string `db:"session_disconnected" json:"session_disconnected"`
+}

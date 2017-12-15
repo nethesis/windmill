@@ -23,18 +23,18 @@
 package session
 
 import (
-	"fmt"
-	"errors"
-	"net/http"
-	"io/ioutil"
 	"encoding/json"
+	"errors"
+	"fmt"
+	"io/ioutil"
+	"net/http"
 	"os/exec"
 
 	"github.com/spf13/cobra"
 
-	"sancho/model"
-	"sancho/helper"
 	"sancho/configuration"
+	"sancho/helper"
+	"sancho/model"
 )
 
 func closeConnections() {
@@ -45,13 +45,13 @@ func closeConnections() {
 	}
 	defer resp.Body.Close()
 
-	if (resp.StatusCode < 300) {
+	if resp.StatusCode < 300 {
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			helper.RedPanic(err.Error())
 		}
 
-		var sessions[] model.Session
+		var sessions []model.Session
 		err = json.Unmarshal(body, &sessions)
 		if err != nil {
 			helper.RedPanic(err.Error())
@@ -69,7 +69,7 @@ func closeConnection(sessionId string) {
 	vpnIp := helper.GetSessionIp(sessionId)
 	port := configuration.Config.SSHPort
 
-	if (len(vpnIp) > 0) {
+	if len(vpnIp) > 0 {
 		helper.StartLoader()
 		fmt.Printf("Try to close %s session...\n", helper.GreenString(sessionId))
 
@@ -95,13 +95,13 @@ func closeConnection(sessionId string) {
 }
 
 var CloseCmd = &cobra.Command{
-	Use: "close <session-id>",
+	Use:   "close <session-id>",
 	Short: "Close Session ID and remove VPN connection",
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) < 1 {
 			return errors.New(helper.RedString("requires session-id"))
 		}
-		return nil;
+		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		closeConnection(args[0])

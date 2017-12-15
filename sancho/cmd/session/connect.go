@@ -23,22 +23,22 @@
 package session
 
 import (
-	"fmt"
 	"errors"
+	"fmt"
 	"os"
 	"os/exec"
 
 	"github.com/spf13/cobra"
 
-	"sancho/helper"
 	"sancho/configuration"
+	"sancho/helper"
 )
 
 func connectSession(sessionId string) {
 	vpnIp := helper.GetSessionIp(sessionId)
 	port := configuration.Config.SSHPort
 
-	if (len(vpnIp) > 0) {
+	if len(vpnIp) > 0 {
 		fmt.Printf("Try connection on %s session...\n", helper.GreenString(sessionId))
 
 		vpnCmd := exec.Command("/opt/windmill/helpers/windmill-start-ssh", vpnIp, port, sessionId)
@@ -53,13 +53,13 @@ func connectSession(sessionId string) {
 }
 
 var ConnectCmd = &cobra.Command{
-	Use: "ssh <session-id>",
+	Use:   "ssh <session-id>",
 	Short: "Connect to server by specify Session ID",
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) < 1 {
 			return errors.New(helper.RedString("requires session-id"))
 		}
-		return nil;
+		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		sessionId := args[0]

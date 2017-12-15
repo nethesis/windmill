@@ -25,8 +25,8 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 
-	"ronzinante/methods"
 	"ronzinante/configuration"
+	"ronzinante/methods"
 )
 
 func main() {

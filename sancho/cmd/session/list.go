@@ -23,21 +23,21 @@
 package session
 
 import (
-	"fmt"
-	"net/http"
-	"io/ioutil"
-	"encoding/json"
 	"bytes"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
 
 	"github.com/spf13/cobra"
 
-	"sancho/model"
 	"sancho/configuration"
 	"sancho/helper"
+	"sancho/model"
 )
 
 var (
-	jsonFlag = false
+	jsonFlag  = false
 	quietFlag = false
 )
 
@@ -51,16 +51,16 @@ func printJSON(body []byte) {
 }
 
 func printSession(session model.Session) {
-	if (jsonFlag) {
+	if jsonFlag {
 		jsonPrint := []byte(`{
 			"session":"` + session.SessionId + `",
 			"server":"` + session.ServerId + `",
 			"vpn":"` + session.VpnIp + `",
 			"started":"` + session.Started + `"
 		}`)
-		printJSON(jsonPrint);
+		printJSON(jsonPrint)
 	} else {
-		if (quietFlag) {
+		if quietFlag {
 			fmt.Println(session.SessionId)
 		} else {
 			fmt.Printf("session: %s\n", helper.GreenString(session.SessionId))
@@ -79,13 +79,13 @@ func listSessions() {
 	}
 	defer resp.Body.Close()
 
-	if (resp.StatusCode < 300) {
+	if resp.StatusCode < 300 {
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			helper.RedPanic(err.Error())
 		}
 
-		var sessions[] model.Session
+		var sessions []model.Session
 		err = json.Unmarshal(body, &sessions)
 		if err != nil {
 			helper.RedPanic(err.Error())
@@ -107,7 +107,7 @@ func listSession(sessionId string) {
 	}
 	defer resp.Body.Close()
 
-	if (resp.StatusCode < 300) {
+	if resp.StatusCode < 300 {
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			helper.RedPanic(err.Error())
@@ -126,15 +126,15 @@ func listSession(sessionId string) {
 }
 
 var ListCmd = &cobra.Command{
-	Use: "list [session-id]",
+	Use:   "list [session-id]",
 	Short: "Show all connected servers sessions",
-	Args: cobra.MaximumNArgs(1),
+	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 1 {
-            listSession(args[0])
-        } else {
+			listSession(args[0])
+		} else {
 			listSessions()
-        }
+		}
 	},
 }
 

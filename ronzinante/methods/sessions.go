@@ -20,113 +20,113 @@
  * author: Edoardo Spadoni <edoardo.spadoni@nethesis.it>
  */
 
- package methods
+package methods
 
- import (
-	 "net/http"
-	 "time"
+import (
+	"net/http"
+	"time"
 
-	 "github.com/gin-gonic/gin"
-	 _ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/gin-gonic/gin"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 
-	 "ronzinante/database"
-	 "ronzinante/models"
- )
+	"ronzinante/database"
+	"ronzinante/models"
+)
 
- func CreateSession(c *gin.Context) {
-	 sessionId := c.PostForm("session_id")
-	 serverId := c.PostForm("server_id")
-	 started := time.Now().String()
+func CreateSession(c *gin.Context) {
+	sessionId := c.PostForm("session_id")
+	serverId := c.PostForm("server_id")
+	started := time.Now().String()
 
-	 session := models.Session{
-		 ServerId: serverId,
-		 SessionId: sessionId,
-		 VpnIp: "",
-		 Started: started,
-	 }
+	session := models.Session{
+		ServerId:  serverId,
+		SessionId: sessionId,
+		VpnIp:     "",
+		Started:   started,
+	}
 
-	 db := database.Database()
-	 db.Save(&session)
+	db := database.Database()
+	db.Save(&session)
 
-	 db.Close()
+	db.Close()
 
-	 c.JSON(http.StatusCreated, gin.H{"id": session.Id})
- }
+	c.JSON(http.StatusCreated, gin.H{"id": session.Id})
+}
 
- func UpdateSession(c *gin.Context) {
-	 var session models.Session
-	 serverId := c.Param("server_id")
-	 vpnIp := c.PostForm("vpn_ip")
+func UpdateSession(c *gin.Context) {
+	var session models.Session
+	serverId := c.Param("server_id")
+	vpnIp := c.PostForm("vpn_ip")
 
-	 db := database.Database()
-	 db.Where("server_id = ?", serverId).First(&session)
+	db := database.Database()
+	db.Where("server_id = ?", serverId).First(&session)
 
-	 if session.Id == 0 {
-		 c.JSON(http.StatusNotFound, gin.H{"message": "No session found!"})
-		 return
-	 }
+	if session.Id == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"message": "No session found!"})
+		return
+	}
 
-	 session.VpnIp = vpnIp
-	 db.Save(&session)
+	session.VpnIp = vpnIp
+	db.Save(&session)
 
-	 db.Close()
- }
+	db.Close()
+}
 
- func GetSessions(c *gin.Context) {
-	 var sessions []models.Session
+func GetSessions(c *gin.Context) {
+	var sessions []models.Session
 
-	 db := database.Database()
-	 db.Find(&sessions)
+	db := database.Database()
+	db.Find(&sessions)
 
-	 if len(sessions) <= 0 {
-		 c.JSON(http.StatusNotFound, gin.H{"message": "No sessions found!"})
-		 return
-	 }
+	if len(sessions) <= 0 {
+		c.JSON(http.StatusNotFound, gin.H{"message": "No sessions found!"})
+		return
+	}
 
-	 db.Close()
+	db.Close()
 
-	 c.JSON(http.StatusOK, sessions)
- }
+	c.JSON(http.StatusOK, sessions)
+}
 
- func GetSession(c *gin.Context) {
-	 var session models.Session
-	 sessionId := c.Param("session_id")
+func GetSession(c *gin.Context) {
+	var session models.Session
+	sessionId := c.Param("session_id")
 
-	 db := database.Database()
-	 db.Where("session_id = ?", sessionId).First(&session)
+	db := database.Database()
+	db.Where("session_id = ?", sessionId).First(&session)
 
-	 if session.Id == 0 {
-		 c.JSON(http.StatusNotFound, gin.H{"message": "No session found!"})
-		 return
-	 }
+	if session.Id == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"message": "No session found!"})
+		return
+	}
 
-	 db.Close()
+	db.Close()
 
-	 c.JSON(http.StatusOK, session)
- }
+	c.JSON(http.StatusOK, session)
+}
 
- func DeleteSession(c *gin.Context) {
-	 var session models.Session
-	 var history models.History
-	 serverId := c.Param("server_id")
+func DeleteSession(c *gin.Context) {
+	var session models.Session
+	var history models.History
+	serverId := c.Param("server_id")
 
-	 db := database.Database()
-	 db.Where("server_id = ?", serverId).First(&session)
+	db := database.Database()
+	db.Where("server_id = ?", serverId).First(&session)
 
-	 if session.Id == 0 {
-		 c.JSON(http.StatusNotFound, gin.H{"message": "No session found!"})
-		 return
-	 }
+	if session.Id == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"message": "No session found!"})
+		return
+	}
 
-	 // add to history this session
-	 history.SessionId = session.SessionId
-	 history.ServerId = session.ServerId
-	 history.Started = time.Now().String()
-	 db.Save(&history)
+	// add to history this session
+	history.SessionId = session.SessionId
+	history.ServerId = session.ServerId
+	history.Started = time.Now().String()
+	db.Save(&history)
 
-	 db.Delete(&session)
+	db.Delete(&session)
 
-	 db.Close()
+	db.Close()
 
-	 c.JSON(http.StatusOK, gin.H{"message": "Session deleted successfully!"})
- }
+	c.JSON(http.StatusOK, gin.H{"message": "Session deleted successfully!"})
+}

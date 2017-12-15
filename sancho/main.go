@@ -23,8 +23,8 @@
 package main
 
 import (
-	"sancho/configuration"
 	"sancho/cmd"
+	"sancho/configuration"
 )
 
 func main() {

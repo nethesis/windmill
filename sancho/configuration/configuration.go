@@ -20,22 +20,22 @@
  * author: Edoardo Spadoni <edoardo.spadoni@nethesis.it>
  */
 
- package configuration
+package configuration
 
- import (
+import (
 	"encoding/json"
-    "os"
-    "fmt"
- )
+	"fmt"
+	"os"
+)
 
- type Configuration struct {
-	SSHPort		string	`json:"ssh_port"`
-	APIEndpoint	string	`json:"api_endpoint"`
- }
+type Configuration struct {
+	SSHPort     string `json:"ssh_port"`
+	APIEndpoint string `json:"api_endpoint"`
+}
 
- var Config = Configuration{}
+var Config = Configuration{}
 
- func Init() {
+func Init() {
 	// read configuration
 	file, _ := os.Open("/opt/windmill/sancho/conf.json")
 	decoder := json.NewDecoder(file)
@@ -45,4 +45,4 @@
 	if err != nil {
 		fmt.Println("error:", err)
 	}
- }
+}

@@ -20,22 +20,22 @@
  * author: Edoardo Spadoni <edoardo.spadoni@nethesis.it>
  */
 
- package configuration
+package configuration
 
- import (
+import (
 	"encoding/json"
-    "os"
-    "fmt"
+	"fmt"
+	"os"
 )
 
- type Configuration struct {
-	DbUser		string	`json:"db_user"`
-	DbPassword	string	`json:"db_password"`
- }
+type Configuration struct {
+	DbUser     string `json:"db_user"`
+	DbPassword string `json:"db_password"`
+}
 
- var Config = Configuration{}
+var Config = Configuration{}
 
- func Init() {
+func Init() {
 	// read configuration
 	file, _ := os.Open("/opt/windmill/ronzinante/conf.json")
 	decoder := json.NewDecoder(file)
@@ -45,4 +45,4 @@
 	if err != nil {
 		fmt.Println("error:", err)
 	}
- }
+}
