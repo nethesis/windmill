@@ -64,6 +64,8 @@ func UpdateHistory(c *gin.Context) {
 	db.Save(&history)
 
 	db.Close()
+
+	c.JSON(http.StatusOK, gin.H{"message": "History updated successfully!"})
 }
 
 func GetHistories(c *gin.Context) {

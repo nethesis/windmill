@@ -79,6 +79,8 @@ func UpdateLog(c *gin.Context) {
 	db.Save(&log)
 
 	db.Close()
+
+	c.JSON(http.StatusOK, gin.H{"message": "Log updated successfully!"})
 }
 
 func GetLogs(c *gin.Context) {

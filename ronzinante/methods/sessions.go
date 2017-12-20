@@ -70,6 +70,8 @@ func UpdateSession(c *gin.Context) {
 	db.Save(&session)
 
 	db.Close()
+
+	c.JSON(http.StatusOK, gin.H{"message": "Session updated successfully!"})
 }
 
 func GetSessions(c *gin.Context) {
