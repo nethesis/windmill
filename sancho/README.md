@@ -19,7 +19,7 @@
     - `help [command]` print help of any command
     - `session <command>` execute specific command on sessions
         - `close <session-id>` close session by ID
-        - `connect <session-id>` connect to server using session ID
+        - `ssh <session-id>` connect to server using session ID
         - `list [session-id]` list all or particular session ID
         - flags:
             - `-j` or `--json` print output in JSON format
