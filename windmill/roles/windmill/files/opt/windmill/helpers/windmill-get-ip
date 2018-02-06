@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Retrieve OpenVPN IP using management socket
+
+CN=$1
+
+if [ -z "$CN" ]; then
+    echo "$0 <CN>"
+    exit 1
+fi
+
+function read_ip {
+    printf "status\r\n" | nc -w 1 -U $1 | grep $CN | grep -ve "^$CN" | cut -d',' -f1
+}
+
+# First check standard windmill instance
+IP=$(read_ip "/opt/windmill/openvpn/spool/windmill.socket")
+
+# If the CN is not fount, try the https instance
+if [ -z "$IP" ]; then
+    IP=$(read_ip "/opt/windmill/openvpn/spool/windmill-https.socket")
+fi
+
+
+if [ -z "$IP" ]; then
+    exit 1
+else
+    echo -n $IP
+fi

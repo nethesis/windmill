@@ -8,6 +8,7 @@
 - name: Install required packages
   yum: enablerepo=epel name="{{item}}" state=present
   with_items:
+      - nc
       - openvpn
       - wget
       - easy-rsa

@@ -24,6 +24,8 @@ package methods
 
 import (
 	"net/http"
+	"os/exec"
+	"sancho/helper"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -85,6 +87,21 @@ func GetSessions(c *gin.Context) {
 		return
 	}
 
+	// check vpn ips
+	for _, s := range sessions {
+		if s.VpnIp == "" {
+			// call helper to get ip
+			out, err := exec.Command("/opt/windmill/helpers/windmill-get-ip", s.ServerId).Output()
+			if err != nil {
+				helper.RedPanic(err.Error())
+			}
+			s.VpnIp = string(out)
+
+			// save vpn ip
+			db.Save(&s)
+		}
+	}
+
 	db.Close()
 
 	c.JSON(http.StatusOK, sessions)
@@ -100,6 +117,18 @@ func GetSession(c *gin.Context) {
 	if session.Id == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"message": "No session found!"})
 		return
+	}
+
+	if session.VpnIp == "" {
+		// call helper to get ip
+		out, err := exec.Command("/opt/windmill/helpers/windmill-get-ip", session.ServerId).Output()
+		if err != nil {
+			helper.RedPanic(err.Error())
+		}
+		session.VpnIp = string(out)
+
+		// save vpn ip
+		db.Save(&session)
 	}
 
 	db.Close()
