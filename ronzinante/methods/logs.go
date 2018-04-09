@@ -40,6 +40,7 @@ func CreateLog(c *gin.Context) {
 	var session models.Session
 	db := database.Database()
 	db.Where("session_id = ?", sessionId).First(&session)
+	defer db.Close()
 
 	if session.Id == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"message": "No session found!"})
@@ -58,7 +59,6 @@ func CreateLog(c *gin.Context) {
 
 	db.Save(&log)
 
-	db.Close()
 
 	c.JSON(http.StatusCreated, gin.H{"id": log.Id})
 }
@@ -69,6 +69,7 @@ func UpdateLog(c *gin.Context) {
 
 	db := database.Database()
 	db.Where("id = ?", logId).First(&log)
+	defer db.Close()
 
 	if log.Id == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"message": "No log found!"})
@@ -78,7 +79,6 @@ func UpdateLog(c *gin.Context) {
 	log.SessionDisconnected = time.Now().String()
 	db.Save(&log)
 
-	db.Close()
 
 	c.JSON(http.StatusOK, gin.H{"message": "Log updated successfully!"})
 }
@@ -88,13 +88,13 @@ func GetLogs(c *gin.Context) {
 
 	db := database.Database()
 	db.Find(&logs)
+	defer db.Close()
 
 	if len(logs) <= 0 {
 		c.JSON(http.StatusNotFound, gin.H{"message": "No logs found!"})
 		return
 	}
 
-	db.Close()
 
 	c.JSON(http.StatusOK, logs)
 }
@@ -105,13 +105,13 @@ func GetLog(c *gin.Context) {
 
 	db := database.Database()
 	db.Where("session_id = ?", sessionId).Find(&log)
+	defer db.Close()
 
 	if log.Id == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"message": "No log found!"})
 		return
 	}
 
-	db.Close()
 
 	c.JSON(http.StatusOK, log)
 }

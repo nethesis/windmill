@@ -61,6 +61,7 @@ func UpdateSession(c *gin.Context) {
 
 	db := database.Database()
 	db.Where("server_id = ?", serverId).First(&session)
+	defer db.Close()
 
 	if session.Id == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"message": "No session found!"})
@@ -70,8 +71,6 @@ func UpdateSession(c *gin.Context) {
 	session.VpnIp = vpnIp
 	db.Save(&session)
 
-	db.Close()
-
 	c.JSON(http.StatusOK, gin.H{"message": "Session updated successfully!"})
 }
 
@@ -80,6 +79,7 @@ func GetSessions(c *gin.Context) {
 
 	db := database.Database()
 	db.Find(&sessions)
+	defer db.Close()
 
 	if len(sessions) <= 0 {
 		c.JSON(http.StatusNotFound, gin.H{"message": "No sessions found!"})
@@ -98,8 +98,6 @@ func GetSessions(c *gin.Context) {
 		}
 	}
 
-	db.Close()
-
 	c.JSON(http.StatusOK, sessions)
 }
 
@@ -109,6 +107,7 @@ func GetSession(c *gin.Context) {
 
 	db := database.Database()
 	db.Where("session_id = ?", sessionId).First(&session)
+	defer db.Close()
 
 	if session.Id == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"message": "No session found!"})
@@ -124,8 +123,6 @@ func GetSession(c *gin.Context) {
 		db.Save(&session)
 	}
 
-	db.Close()
-
 	c.JSON(http.StatusOK, session)
 }
 
@@ -136,6 +133,7 @@ func DeleteSession(c *gin.Context) {
 
 	db := database.Database()
 	db.Where("server_id = ?", serverId).First(&session)
+	defer db.Close()
 
 	if session.Id == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"message": "No session found!"})
@@ -149,8 +147,6 @@ func DeleteSession(c *gin.Context) {
 	db.Save(&history)
 
 	db.Delete(&session)
-
-	db.Close()
 
 	c.JSON(http.StatusOK, gin.H{"message": "Session deleted successfully!"})
 }
