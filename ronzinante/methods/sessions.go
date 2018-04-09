@@ -35,21 +35,29 @@ import (
 )
 
 func CreateSession(c *gin.Context) {
+	var session models.Session
 	sessionId := c.PostForm("session_id")
 	serverId := c.PostForm("server_id")
 	started := time.Now().String()
 
-	session := models.Session{
+	db := database.Database()
+	db.Where("session_id = ?", sessionId).First(&session)
+	defer db.Close()
+
+	if session.Id > 0 {
+		c.JSON(http.StatusConflict, gin.H{"message": "Session already exists!"})
+		return
+	}
+
+	session = models.Session{
 		ServerId:  serverId,
 		SessionId: sessionId,
 		VpnIp:     "",
 		Started:   started,
 	}
 
-	db := database.Database()
 	db.Save(&session)
 
-	db.Close()
 
 	c.JSON(http.StatusCreated, gin.H{"id": session.Id})
 }
