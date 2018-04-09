@@ -30,8 +30,8 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 
-	"ronzinante/database"
-	"ronzinante/models"
+	"github.com/nethesis/windmill/ronzinante/database"
+	"github.com/nethesis/windmill/ronzinante/models"
 )
 
 func CreateSession(c *gin.Context) {
