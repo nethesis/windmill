@@ -26,7 +26,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 
-	"ronzinante/configuration"
+	"github.com/nethesis/windmill/ronzinante/configuration"
 )
 
 func Database() *gorm.DB {
