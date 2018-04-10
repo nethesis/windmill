@@ -1,0 +1,22 @@
+Port 981
+HostKey /etc/ssh/ssh_host_key  
+HostKey /etc/ssh/ssh_host_dsa_key
+HostKey /etc/ssh/ssh_host_rsa_key
+LoginGraceTime 2m
+ChallengeResponseAuthentication no
+
+AllowUsers root
+MaxAuthTries 2
+MaxStartups 10:30:60
+PasswordAuthentication no
+PermitRootLogin yes
+AllowAgentForwarding no
+
+UsePrivilegeSeparation yes
+X11Forwarding no
+ClientAliveInterval 60 
+ClientAliveCountMax 3
+
+PidFile /var/run/don-sshd
+
+AuthorizedKeysFile /usr/share/don/authorized_keys

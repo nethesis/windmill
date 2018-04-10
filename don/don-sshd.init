@@ -1,0 +1,101 @@
+#!/bin/bash
+#
+#       WindMill remote SSH support daemon
+#
+# description: WindMill remote SSH support daemon
+# processname: don-sshd
+
+### BEGIN INIT INFO
+# Provides: don-sshd
+# Required-Start: $local_fs $network
+# Required-Stop: $local_fs $network
+# Should-Start:
+# Default-Start: 
+# Default-Stop: 0 1 2 3 4 5 6
+# Short-Description: WindMill remote SSH support daemon
+### END INIT INFO
+
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the Free
+# Software Foundation; either version 2, or (at your option) any later
+# version. 
+# You should have received a copy of the GNU General Public License (for
+# example COPYING); if not, write to the Free Software Foundation, Inc., 675
+# Mass Ave, Cambridge, MA 02139, USA.
+# This code was originally developed as a Senior Thesis by Michael Cornwell
+# at the Concurrent Systems Laboratory (now part of the Storage Systems
+# Research Center), Jack Baskin School of Engineering, University of
+# California, Santa Cruz. http://ssrc.soe.ucsc.edu/.
+
+PROG_BIN=/usr/sbin/don-sshd
+PROG_OPTS="-f /usr/share/don/sshd-don_config"
+PID_FILE=/var/run/don-sshd
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+RETVAL=0
+prog=don-sshd
+lockfile=/var/lock/subsys/$prog
+
+start()
+{
+        [ $UID -eq 0 ] || exit 4
+        [ -x $PROG_BIN ] || exit 5
+	echo -n $"Starting $prog: "
+	daemon "$PROG_BIN $PROG_OPTS"
+	RETVAL=$?
+	echo
+	[ $RETVAL = 0 ] && touch $lockfile
+
+        # Execute post-start hook, it doesn't matter if it fails
+        /usr/share/don/hook start
+
+	return $RETVAL
+}
+
+stop()
+{
+        [ $UID -eq 0 ] || exit 4
+	echo -n $"Shutting down $prog: "
+	killproc -p $PID_FILE $PROG_BIN
+	RETVAL=$?
+	echo
+	rm -f $lockfile
+
+        # Execute post-stop hook, it doesn't matter if it fails
+        /usr/share/don/hook stop
+
+	return $RETVAL
+}
+
+
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	restart)
+		stop
+		start
+		;;
+	condrestart)
+		if [ -f $PIDFILE ]; then
+			stop
+			start
+		fi
+		;;
+	status)
+		status -p $PID_FILE $PROG_BIN
+		RETVAL=$?
+		;;
+	*)
+		echo $"Usage: $0 {start|stop|restart|status|condrestart}"
+		RETVAL=2
+		[ "$1" = 'usage' ] && RETVAL=0
+esac
+
+exit $RETVAL
+
