@@ -20,8 +20,23 @@
 
 guard=0
 timeout=60
-socket=/run/don/management
-credentials=/run/don/credentials
+socket=/var/run/don/management
+credentials=/var/run/don/credentials
+
+init="init"
+pidof systemd  &>/dev/null
+if [ $? -eq 0 ]; then
+    init="systemd"
+fi
+
+if [ "$init" == "systemd" ]; then
+    socket=/run/don/management
+    credentials=/run/don/credentials
+else
+    # Make sure base system dir exists
+    mkdir -p $(dirname $socket)
+fi
+
 
 function show_credentials
 {
@@ -33,9 +48,44 @@ function show_credentials
     fi
 }
 
+function start
+{
+    if [ "$init" == "systemd" ]; then
+        systemctl start $1
+    else
+        service $1 start
+    fi
+}
+
+function stop
+{
+    if [ "$init" == "systemd" ]; then
+        systemctl stop $1
+    else
+        service $1 stop
+    fi
+}
+
+function status
+{
+    if [ "$init" == "systemd" ]; then
+        systemctl --lines 0 status don-openvpn
+        ret1=$?
+        systemctl --lines 0 status don-sshd
+        ret2=$?
+    else
+        service don-openvpn status
+        ret1=$?
+        service don-sshd status
+        ret2=$?
+    fi
+
+    return $((ret1+ret2))
+}
+
 case "$1" in
 start)
-    systemctl start don-openvpn
+    start don-openvpn
     while [ ! -S $socket ]
     do
         sleep 1
@@ -46,7 +96,7 @@ start)
         fi
     done
 
-    until (echo state | nc -U /run/don/management | grep -q CONNECTED)
+    until (echo state | nc -U $socket | grep -q CONNECTED)
     do
         sleep 1
         guard=$((guard+1))
@@ -55,22 +105,17 @@ start)
             exit 8
         fi
     done
-    systemctl start don-sshd
+    start don-sshd
     show_credentials
 ;;
 stop)
-    systemctl stop don-sshd
-    systemctl stop don-openvpn
+    stop don-sshd
+    stop don-openvpn
 ;;
 status)
     show_credentials
-    echo
-    systemctl --lines 0 status don-openvpn
-    ret1=$?
-    echo
-    systemctl --lines 0 status don-sshd
-    ret2=$?
-    exit $((ret1+ret2))
+    status
+    exit $?
 ;;
 *)
     echo $"Usage: $0 {start|stop|status}"

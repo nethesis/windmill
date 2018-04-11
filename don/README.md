@@ -43,6 +43,8 @@ systemctl status don-sshd
    you can find it inside your WindMill server under `/etc/keyholder.d/support.pub`.
 
 3. Customize your firewall rules to allow SSH connections from `tunDON` network device.
+   The credential file must contain two lines: on the first one put the server identification,
+   on the second one add a unique session identifier. You can use `uuidgen` command for it.
 
 4. Customize Don start and stop hooks to create OpenVPN credentials or to configure the system.
    See below section.
