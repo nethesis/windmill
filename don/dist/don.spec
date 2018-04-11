@@ -1,5 +1,5 @@
 Name: don
-Version: 0.0.4
+Version: 0.0.5
 Release: 1%{?dist}
 Summary: Don is the client for WindMill remote support system
 
@@ -92,6 +92,9 @@ touch  %{buildroot}/usr/share/don/authorized_keys
 
 
 %changelog
+* Wed Apr 11 2018 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 0.0.5-1
+- Support both EL 6 and EL 7
+
 * Tue Nov 28 2017 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 0.0.4
 - Add hook script
 
