@@ -1,0 +1,22 @@
+
+module windmill 1.0;
+
+require {
+	type openvpn_t;
+	type usr_t;
+	class sock_file { create unlink };
+	class file { append create write };
+	class dir { add_name remove_name write };
+}
+
+#============= openvpn_t ==============
+
+#!!!! This avc is allowed in the current policy
+allow openvpn_t usr_t:dir { add_name remove_name write };
+
+#!!!! This avc is allowed in the current policy
+allow openvpn_t usr_t:file { append create write };
+allow openvpn_t usr_t:sock_file unlink;
+
+#!!!! This avc is allowed in the current policy
+allow openvpn_t usr_t:sock_file create;
