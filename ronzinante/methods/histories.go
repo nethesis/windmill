@@ -45,9 +45,8 @@ func UpdateHistory(c *gin.Context) {
 	trusted_ip := c.PostForm("trusted_ip")
 	trusted_port := c.PostForm("trusted_port")
 
-	db := database.Database()
+	db := database.Instance()
 	db.Where("server_id = ?", serverId).First(&history)
-	defer db.Close()
 
 	if history.Id == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"message": "No history found!"})
@@ -70,9 +69,8 @@ func UpdateHistory(c *gin.Context) {
 func GetHistories(c *gin.Context) {
 	var histories []models.History
 
-	db := database.Database()
+	db := database.Instance()
 	db.Find(&histories)
-	defer db.Close()
 
 	if len(histories) <= 0 {
 		c.JSON(http.StatusNotFound, gin.H{"message": "No histories found!"})
@@ -87,9 +85,8 @@ func GetHistory(c *gin.Context) {
 	var history models.History
 	serverId := c.Param("server_id")
 
-	db := database.Database()
+	db := database.Instance()
 	db.Where("server_id = ?", serverId).Find(&history)
-	defer db.Close()
 
 	if history.Id == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"message": "No history found!"})

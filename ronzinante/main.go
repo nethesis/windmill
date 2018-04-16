@@ -25,6 +25,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 
+	"github.com/nethesis/windmill/ronzinante/database"
 	"github.com/nethesis/windmill/ronzinante/configuration"
 	"github.com/nethesis/windmill/ronzinante/methods"
 )
@@ -32,6 +33,10 @@ import (
 func main() {
 	// read and init configuration
 	configuration.Init()
+
+	// init database
+	db := database.Init()
+	defer db.Close()
 
 	// init routers
 	router := gin.Default()
