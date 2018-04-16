@@ -25,7 +25,7 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 
-	"sancho/cmd/session"
+	"github.com/nethesis/windmill/sancho/cmd/session"
 )
 
 var sessionCmd = &cobra.Command{

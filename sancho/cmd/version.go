@@ -27,7 +27,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"sancho/helper"
+	"github.com/nethesis/windmill/sancho/helper"
 )
 
 var versionCmd = &cobra.Command{

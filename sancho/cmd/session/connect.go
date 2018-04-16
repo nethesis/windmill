@@ -30,8 +30,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"sancho/configuration"
-	"sancho/helper"
+	"github.com/nethesis/windmill/sancho/configuration"
+	"github.com/nethesis/windmill/sancho/helper"
 )
 
 func connectSession(sessionId string) {

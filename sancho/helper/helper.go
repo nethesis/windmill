@@ -31,8 +31,8 @@ import (
 	"github.com/briandowns/spinner"
 	"github.com/fatih/color"
 
-	"sancho/configuration"
-	"sancho/model"
+	"github.com/nethesis/windmill/sancho/configuration"
+	"github.com/nethesis/windmill/sancho/model"
 )
 
 var (

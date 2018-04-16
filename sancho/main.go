@@ -23,8 +23,8 @@
 package main
 
 import (
-	"sancho/cmd"
-	"sancho/configuration"
+	"github.com/nethesis/windmill/sancho/cmd"
+	"github.com/nethesis/windmill/sancho/configuration"
 )
 
 func main() {

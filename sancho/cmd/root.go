@@ -29,7 +29,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"sancho/helper"
+	"github.com/nethesis/windmill/sancho/helper"
 )
 
 var RootCmd = &cobra.Command{
