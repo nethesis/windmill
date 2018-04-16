@@ -40,9 +40,8 @@ func CreateSession(c *gin.Context) {
 	serverId := c.PostForm("server_id")
 	started := time.Now().String()
 
-	db := database.Database()
+	db := database.Instance()
 	db.Where("session_id = ?", sessionId).First(&session)
-	defer db.Close()
 
 	if session.Id > 0 {
 		c.JSON(http.StatusConflict, gin.H{"message": "Session already exists!"})
@@ -67,9 +66,8 @@ func UpdateSession(c *gin.Context) {
 	serverId := c.Param("server_id")
 	vpnIp := c.PostForm("vpn_ip")
 
-	db := database.Database()
+	db := database.Instance()
 	db.Where("server_id = ?", serverId).First(&session)
-	defer db.Close()
 
 	if session.Id == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"message": "No session found!"})
@@ -85,9 +83,8 @@ func UpdateSession(c *gin.Context) {
 func GetSessions(c *gin.Context) {
 	var sessions []models.Session
 
-	db := database.Database()
+	db := database.Instance()
 	db.Find(&sessions)
-	defer db.Close()
 
 	if len(sessions) <= 0 {
 		c.JSON(http.StatusNotFound, gin.H{"message": "No sessions found!"})
@@ -113,9 +110,8 @@ func GetSession(c *gin.Context) {
 	var session models.Session
 	sessionId := c.Param("session_id")
 
-	db := database.Database()
+	db := database.Instance()
 	db.Where("session_id = ?", sessionId).First(&session)
-	defer db.Close()
 
 	if session.Id == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"message": "No session found!"})
@@ -139,9 +135,8 @@ func DeleteSession(c *gin.Context) {
 	var history models.History
 	serverId := c.Param("server_id")
 
-	db := database.Database()
+	db := database.Instance()
 	db.Where("server_id = ?", serverId).First(&session)
-	defer db.Close()
 
 	if session.Id == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"message": "No session found!"})

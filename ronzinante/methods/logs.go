@@ -38,9 +38,8 @@ func CreateLog(c *gin.Context) {
 	operatorId := c.PostForm("operator_id")
 
 	var session models.Session
-	db := database.Database()
+	db := database.Instance()
 	db.Where("session_id = ?", sessionId).First(&session)
-	defer db.Close()
 
 	if session.Id == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"message": "No session found!"})
@@ -67,9 +66,8 @@ func UpdateLog(c *gin.Context) {
 	var log models.Log
 	logId := c.Param("log_id")
 
-	db := database.Database()
+	db := database.Instance()
 	db.Where("id = ?", logId).First(&log)
-	defer db.Close()
 
 	if log.Id == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"message": "No log found!"})
@@ -86,9 +84,8 @@ func UpdateLog(c *gin.Context) {
 func GetLogs(c *gin.Context) {
 	var logs []models.Log
 
-	db := database.Database()
+	db := database.Instance()
 	db.Find(&logs)
-	defer db.Close()
 
 	if len(logs) <= 0 {
 		c.JSON(http.StatusNotFound, gin.H{"message": "No logs found!"})
@@ -103,9 +100,8 @@ func GetLog(c *gin.Context) {
 	var log models.Log
 	sessionId := c.Param("session_id")
 
-	db := database.Database()
+	db := database.Instance()
 	db.Where("session_id = ?", sessionId).Find(&log)
-	defer db.Close()
 
 	if log.Id == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"message": "No log found!"})

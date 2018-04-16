@@ -29,8 +29,18 @@ import (
 	"github.com/nethesis/windmill/ronzinante/configuration"
 )
 
-func Database() *gorm.DB {
-	db, err := gorm.Open("mysql", configuration.Config.DbUser+":"+configuration.Config.DbPassword+"@tcp(localhost:3306)/windmill?charset=utf8")
+var db *gorm.DB
+var err error
+
+func Instance() *gorm.DB {
+	if db == nil {
+		Init()
+	}
+	return db
+}
+
+func Init() *gorm.DB {
+	db, err = gorm.Open("mysql", configuration.Config.DbUser+":"+configuration.Config.DbPassword+"@tcp(localhost:3306)/windmill?charset=utf8")
 	if err != nil {
 		panic(err.Error())
 	}
