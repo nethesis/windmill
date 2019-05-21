@@ -19,3 +19,24 @@ Characters:
     - [docs](https://github.com/nethesis/windmill/tree/master/sancho)
 - **Ronzinante**: the server which does the dirty job on WindMill
     - [docs](https://github.com/nethesis/windmill/tree/master/ronzinante)
+
+## Keyholder
+
+The keyholder-proxy needs python 3. If the service fails with the following error:
+```
+Error: ssh-agent-proxy requires PyYAML (http://pyyaml.org/)
+Debian / Ubuntu: `apt-get install python3-yaml`
+RHEL / Fedora / CentOS: `yum install python-yaml`
+All others: `pip3 install PyYAML`
+```
+
+Execute:
+```
+yum install python36-pip
+pip3 install PyYAML
+systemctl start keyholder-proxy
+```
+
+## Machine reboots
+
+Upon reboot, make sure to execute `keyholder arm`.
