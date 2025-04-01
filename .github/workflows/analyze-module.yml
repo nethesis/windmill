@@ -1,0 +1,55 @@
+name: Analyze module
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+permissions:
+  packages: write
+  actions: read
+  contents: write
+  security-events: write
+
+
+jobs:
+  generate-sbom:
+    name: Generate SBOM
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        directory: [don, ronzinante, sancho]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Update Dependency Graph
+        uses: aquasecurity/trivy-action@0.30.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '${{ matrix.directory }}'
+          format: 'github'
+
+      - name: Generate Sarif Report
+        uses: aquasecurity/trivy-action@0.30.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '${{ matrix.directory }}'
+          format: sarif
+          output: '${{ matrix.directory }}_windmill.sarif'
+
+      - name: Generate SBOM
+        if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'release'
+        uses: aquasecurity/trivy-action@0.30.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '${{ matrix.directory }}'
+          format: cyclonedx
+          output: '${{ matrix.directory }}_windmill.cdx.json'
+
+      - name: Attach SBOM Release
+        if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release --repo ${{ github.repository }} upload ${{ github.event.release.tag_name }} ${{ matrix.directory }}_windmill.cdx.json
