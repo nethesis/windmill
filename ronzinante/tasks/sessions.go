@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Nethesis S.r.l.
+ * Copyright (C) 2026 Nethesis S.r.l.
  * http://www.nethesis.it - info@nethesis.it
  *
  * This file is part of Windmill project.
