@@ -25,9 +25,10 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/nethesis/windmill/ronzinante/database"
 	"github.com/nethesis/windmill/ronzinante/configuration"
+	"github.com/nethesis/windmill/ronzinante/database"
 	"github.com/nethesis/windmill/ronzinante/methods"
+	"github.com/nethesis/windmill/ronzinante/tasks"
 )
 
 func main() {
@@ -37,6 +38,9 @@ func main() {
 	// init database
 	db := database.Init()
 	defer db.Close()
+
+	// start background session cleaner
+	tasks.StartSessionCleaner()
 
 	// init routers
 	router := gin.Default()

@@ -1,4 +1,9 @@
 {
     "db_user": "root",
-    "db_password": "{{ mariadb_root_password }}"
+    "db_password": "{{ mariadb_root_password }}",
+    "openvpn_sockets": [
+        "/opt/windmill/openvpn/spool/windmill.socket",
+        "/opt/windmill/openvpn/spool/windmill-https.socket"
+    ],
+    "session_max_age": 24
 }
