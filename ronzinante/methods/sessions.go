@@ -143,11 +143,14 @@ func DeleteSession(c *gin.Context) {
 		return
 	}
 
-	// add to history this session
-	history.SessionId = session.SessionId
-	history.ServerId = session.ServerId
-	history.Started = time.Now().String()
-	db.Save(&history)
+	// add to history this session if not already present
+	db.Where("session_id = ?", session.SessionId).First(&history)
+	if history.Id == 0 {
+		history.SessionId = session.SessionId
+		history.ServerId = session.ServerId
+		history.Started = time.Now().String()
+		db.Save(&history)
+	}
 
 	db.Delete(&session)
 

@@ -29,8 +29,10 @@ import (
 )
 
 type Configuration struct {
-	DbUser     string `json:"db_user"`
-	DbPassword string `json:"db_password"`
+	DbUser        string   `json:"db_user"`
+	DbPassword    string   `json:"db_password"`
+	OpenVPNSockets []string `json:"openvpn_sockets"`
+	SessionMaxAge  int      `json:"session_max_age"`
 }
 
 var Config = Configuration{}
@@ -44,5 +46,16 @@ func Init() {
 	err := decoder.Decode(&Config)
 	if err != nil {
 		fmt.Println("error:", err)
+	}
+
+	// set defaults for optional fields
+	if len(Config.OpenVPNSockets) == 0 {
+		Config.OpenVPNSockets = []string{
+			"/opt/windmill/openvpn/spool/windmill.socket",
+			"/opt/windmill/openvpn/spool/windmill-https.socket",
+		}
+	}
+	if Config.SessionMaxAge == 0 {
+		Config.SessionMaxAge = 24
 	}
 }
