@@ -24,14 +24,14 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Update Dependency Graph
-        uses: aquasecurity/trivy-action@0.30.0
+        uses: aquasecurity/trivy-action@0.35.0
         with:
           scan-type: 'fs'
           scan-ref: '${{ matrix.directory }}'
           format: 'github'
 
       - name: Generate Sarif Report
-        uses: aquasecurity/trivy-action@0.30.0
+        uses: aquasecurity/trivy-action@0.35.0
         with:
           scan-type: 'fs'
           scan-ref: '${{ matrix.directory }}'
@@ -40,7 +40,7 @@ jobs:
 
       - name: Generate SBOM
         if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'release'
-        uses: aquasecurity/trivy-action@0.30.0
+        uses: aquasecurity/trivy-action@0.35.0
         with:
           scan-type: 'fs'
           scan-ref: '${{ matrix.directory }}'
